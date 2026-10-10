@@ -1,0 +1,10 @@
+services:
+  - type: web
+    runtime: static
+    name: richmount-ielts
+    branch: main
+    buildCommand: npm run check && npm test
+    staticPublishPath: dist
+    envVars:
+      - key: SKIP_INSTALL_DEPS
+        value: "true"

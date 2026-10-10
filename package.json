@@ -1,0 +1,1 @@
+{"name":"richmount-ielts-studio","private":true,"type":"module","scripts":{"check":"node --check dist/app.js && node --check dist/data.js && node --check dist/grammar.js","test":"node tests/check.mjs"}}
