@@ -3,6 +3,7 @@ import {readFile} from 'node:fs/promises';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import path from 'node:path';
 import {randomUUID} from 'node:crypto';
+import {MaterialError,findMaterial,materialCatalog,makeMaterialTicket,readMaterialTicket,teacherTicketValid,streamMaterial} from './materials.mjs';
 import {validateSubmission,UUID} from './validation.mjs';
 import {verifyPassword,hashPassword,codeHash,makeCode,encryptCode,decryptCode,makeSession,validSession} from './security.mjs';
 
@@ -24,6 +25,10 @@ export function createClassroomServer(config){
   });
   const passwordHash=async()=> (await store('settings:get',{key:'teacher_password_hash'})).setting?.value||config.passwordHash;
   const json=(res,status,value)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(value));};
+  function fileAccess(id,role,subject='',hash=''){
+    const file=findMaterial(id),access=makeMaterialTicket({id,role,subject,passwordHash:hash,secret:config.sessionSecret});
+    return {url:config.appOrigin+'/api/materials/file/'+id+'?ticket='+encodeURIComponent(access.ticket),expiresAt:access.expiresAt,id,title:file.title,filename:file.filename,kind:file.kind};
+  }
   const sessionCookie=token=>'richmount_teacher='+token+'; Path=/; HttpOnly; SameSite=Strict; '+(config.secureCookies===false?'':'Secure; ')+'Max-Age='+(token?'28800':'0');
   async function body(req){
     if(!/^application\/json(?:;|$)/i.test(req.headers['content-type']||''))fail(415,'Send JSON activity data.');
@@ -46,10 +51,25 @@ export function createClassroomServer(config){
     res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','same-origin');res.setHeader('X-Frame-Options','DENY');
     try{
       if(origin&&allowed.has(origin)){res.setHeader('Access-Control-Allow-Origin',origin);res.setHeader('Vary','Origin');res.setHeader('Access-Control-Allow-Credentials','true');}
-      if(method==='OPTIONS'){if(!origin||!allowed.has(origin))fail(403,'This request is not allowed.');res.writeHead(204,{'Access-Control-Allow-Headers':'Content-Type, Authorization','Access-Control-Allow-Methods':'GET, POST, PATCH, OPTIONS','Access-Control-Max-Age':'600'});res.end();return;}
+      if(method==='OPTIONS'){if(!origin||!allowed.has(origin))fail(403,'This request is not allowed.');res.writeHead(204,{'Access-Control-Allow-Headers':'Content-Type, Authorization, Range, If-Range','Access-Control-Allow-Methods':'GET, HEAD, POST, PATCH, OPTIONS','Access-Control-Max-Age':'600'});res.end();return;}
       if(origin&&!allowed.has(origin))fail(403,'This request is not allowed.');
       if(pathname.startsWith('/api/teacher/')&&['POST','PATCH'].includes(method)&&origin!==config.appOrigin)fail(403,'Open the teacher dashboard to make this change.');
       if(pathname==='/health'){const result=await store('health');json(res,result.ready?200:503,{ready:result.ready});return;}
+      const mediaMatch=pathname.match(/^\/api\/materials\/file\/([a-z0-9-]{1,60})$/);
+      if(mediaMatch&&['GET','HEAD'].includes(method)){
+        rate(req,'materials-read',600);
+        const id=mediaMatch[1],ticket=readMaterialTicket(url.searchParams.get('ticket'),id,config.sessionSecret),file=findMaterial(id);
+        if(!ticket)fail(401,'This file link has expired. Open it again from Lesson materials.');
+        if(!file||ticket.role==='student'&&file.visibility!=='student')fail(404,'Lesson file not found.');
+        if(ticket.role==='teacher'){
+          const hash=await passwordHash();
+          if(!validSession(cookieValue(req),hash,config.sessionSecret)||!teacherTicketValid(ticket,hash))fail(401,'Sign in again to open this teacher file.');
+        }else{
+          const learner=(await store('students:by-id',{id:ticket.sub})).student;
+          if(!learner||learner.active!==1)fail(401,'This class code is not active. Ask your teacher to check it.');
+        }
+        await streamMaterial(req,res,file,config,url.searchParams.get('download')==='1');return;
+      }
       if(pathname==='/api/teacher/login'&&method==='POST'){
         rate(req,'teacher-login',5);const data=await body(req),hash=await passwordHash();if(!await verifyPassword(data.password,hash))fail(401,'The teacher password is incorrect.');
         res.setHeader('Set-Cookie',sessionCookie(makeSession(hash,config.sessionSecret)));json(res,200,{teacher:'Teacher Angelo'});return;
@@ -57,6 +77,9 @@ export function createClassroomServer(config){
       if(pathname==='/api/teacher/logout'&&method==='POST'){res.setHeader('Set-Cookie',sessionCookie(''));json(res,200,{signedOut:true});return;}
       if(pathname.startsWith('/api/teacher/')){
         await teacher(req);
+        if(pathname==='/api/teacher/materials'&&method==='GET'){json(res,200,materialCatalog('teacher'));return;}
+        const materialMatch=pathname.match(/^\/api\/teacher\/materials\/([a-z0-9-]{1,60})\/access$/);
+        if(materialMatch&&method==='GET'){json(res,200,fileAccess(materialMatch[1],'teacher','',await passwordHash()));return;}
         if(pathname==='/api/teacher/session'&&method==='GET'){json(res,200,{teacher:'Teacher Angelo'});return;}
         if(pathname==='/api/teacher/summary'&&method==='GET'){json(res,200,await store('summary'));return;}
         if(pathname==='/api/teacher/password'&&method==='POST'){
@@ -99,6 +122,9 @@ export function createClassroomServer(config){
       }
       if(pathname.startsWith('/api/student/')){
         rate(req,'student-api',120);const learner=await student(req);
+        if(pathname==='/api/student/materials'&&method==='GET'){json(res,200,materialCatalog('student'));return;}
+        const materialMatch=pathname.match(/^\/api\/student\/materials\/([a-z0-9-]{1,60})\/access$/);
+        if(materialMatch&&method==='GET'){json(res,200,fileAccess(materialMatch[1],'student',learner.id));return;}
         if(pathname==='/api/student/me'&&method==='GET'){json(res,200,{student:publicStudent(learner)});return;}
         if(pathname==='/api/student/submissions'&&method==='GET'){json(res,200,await store('submissions:list',{studentId:learner.id,limit:100}));return;}
         if(pathname==='/api/student/submissions'&&method==='POST'){
@@ -118,10 +144,12 @@ export function createClassroomServer(config){
       if(!file.startsWith(root)||relative.includes('\0'))fail(404,'Page not found.');
       const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.jpg':'image/jpeg','.png':'image/png','.svg':'image/svg+xml'};
       let bytes;try{bytes=await readFile(file);}catch{fail(404,'Page not found.');}
-      res.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream','Cache-Control':'no-cache','Content-Security-Policy':"default-src 'self'; connect-src 'self' https://*.onrender.com; img-src 'self' data:; style-src 'self' 'unsafe-inline'; media-src 'self' blob:; script-src 'self'; frame-ancestors 'none'"});res.end(method==='HEAD'?undefined:bytes);
+      res.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream','Cache-Control':'no-cache','Content-Security-Policy':"default-src 'self'; connect-src 'self' https://*.onrender.com; img-src 'self' data:; style-src 'self' 'unsafe-inline'; media-src 'self' blob: https://richmount-ielts-classroom.onrender.com; script-src 'self'; frame-ancestors 'none'"});res.end(method==='HEAD'?undefined:bytes);
     }catch(error){
-      const status=error instanceof HttpError?error.status:503;
-      json(res,status,{error:error instanceof HttpError?error.message:'The classroom is temporarily unavailable. Your work stays saved on this device; try sending it again shortly.'});
+      if(res.headersSent){res.destroy();return;}
+      const expected=error instanceof HttpError||error instanceof MaterialError;
+      const status=expected?error.status:503;
+      json(res,status,{error:expected?error.message:'The classroom is temporarily unavailable. Your work stays saved on this device; try sending it again shortly.'});
     }
   });
 }

@@ -1,0 +1,1249 @@
+{
+  "version": "2026-10-10",
+  "lessons": [
+    {
+      "day": 1,
+      "lesson": 1,
+      "title": "Introduction to IELTS Listening",
+      "type": "lesson",
+      "files": [
+        {
+          "id": "day01-book",
+          "title": "Student book",
+          "filename": "Day 1 SB(1).pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 161316,
+          "visibility": "student",
+          "sha256": "7b43ad4e5dd3b601b5f059c3b24f2586660a447e758e66d52949300dc6264ae8",
+          "key": "materials/v1/7b43ad4e5dd3b601b5f059c3b24f2586660a447e758e66d52949300dc6264ae8.pdf",
+          "order": 0
+        },
+        {
+          "id": "day01-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 1 TG(1).pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 2421413,
+          "visibility": "teacher",
+          "sha256": "ca645896c489e8f8d812f757740e30d7f9dc02cf2c59fc4f545b334f828b4862",
+          "key": "materials/v1/ca645896c489e8f8d812f757740e30d7f9dc02cf2c59fc4f545b334f828b4862.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "lesson": 2,
+      "title": "Attention factor",
+      "type": "lesson",
+      "files": [
+        {
+          "id": "day02-book",
+          "title": "Student book",
+          "filename": "Day 2 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 491372,
+          "visibility": "student",
+          "sha256": "7b3b0cdb53982a470e211300424f29cd7e50ed4f6017f9f437a9befb12a460ce",
+          "key": "materials/v1/7b3b0cdb53982a470e211300424f29cd7e50ed4f6017f9f437a9befb12a460ce.pdf",
+          "order": 0
+        },
+        {
+          "id": "lesson02-lp01",
+          "title": "Listening practice 1",
+          "filename": "L2 - LP1.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 2748125,
+          "visibility": "student",
+          "sha256": "c3db90c40c762e2145c168cae96abd40d897c605d66b15a3bc1a7f0252a599e5",
+          "key": "materials/v1/c3db90c40c762e2145c168cae96abd40d897c605d66b15a3bc1a7f0252a599e5.mp3",
+          "order": 11,
+          "duration": 69
+        },
+        {
+          "id": "lesson02-lp02",
+          "title": "Listening practice 2",
+          "filename": "L2 - LP2.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 2369872,
+          "visibility": "student",
+          "sha256": "a0f8b111ac9b7ff8f98d70f51e29c0331d1dfb86e4edf69dd61e88c9103e7d55",
+          "key": "materials/v1/a0f8b111ac9b7ff8f98d70f51e29c0331d1dfb86e4edf69dd61e88c9103e7d55.mp3",
+          "order": 12,
+          "duration": 59
+        },
+        {
+          "id": "lesson02-lp03",
+          "title": "Listening practice 3",
+          "filename": "L2 - LP3.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 7628844,
+          "visibility": "student",
+          "sha256": "b7c64cbfd3116c310f30d31288db2ab93ae1d189361265074e72a373994765a0",
+          "key": "materials/v1/b7c64cbfd3116c310f30d31288db2ab93ae1d189361265074e72a373994765a0.mp3",
+          "order": 13,
+          "duration": 191
+        },
+        {
+          "id": "lesson02-lp04",
+          "title": "Listening practice 4",
+          "filename": "L2 - LP4.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 4333236,
+          "visibility": "student",
+          "sha256": "a36e25e97bdf7915625cb193b014f3d0a39b49226675863c36d3b519cae24deb",
+          "key": "materials/v1/a36e25e97bdf7915625cb193b014f3d0a39b49226675863c36d3b519cae24deb.mp3",
+          "order": 14,
+          "duration": 108
+        },
+        {
+          "id": "day02-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 2 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 1728325,
+          "visibility": "teacher",
+          "sha256": "e29fcd7965545db7e872e0d8361cb802d2c98016f5d94468ba3b4cc5d44972e9",
+          "key": "materials/v1/e29fcd7965545db7e872e0d8361cb802d2c98016f5d94468ba3b4cc5d44972e9.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "lesson": 3,
+      "title": "Auditory discrimination",
+      "type": "lesson",
+      "files": [
+        {
+          "id": "day03-book",
+          "title": "Student book",
+          "filename": "Day 3 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 260092,
+          "visibility": "student",
+          "sha256": "46f066bab6da47653be9b4569092620de845849ce96a852bd702a55ce224997d",
+          "key": "materials/v1/46f066bab6da47653be9b4569092620de845849ce96a852bd702a55ce224997d.pdf",
+          "order": 0
+        },
+        {
+          "id": "lesson03-lp01",
+          "title": "Listening practice 1",
+          "filename": "L3 - LP1.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 213910,
+          "visibility": "student",
+          "sha256": "3b2d8b1e4404e713a51d3be4f663b98538d4600277cab2761d1224b02d6a2b9e",
+          "key": "materials/v1/3b2d8b1e4404e713a51d3be4f663b98538d4600277cab2761d1224b02d6a2b9e.mp3",
+          "order": 11,
+          "duration": 13
+        },
+        {
+          "id": "lesson03-lp02",
+          "title": "Listening practice 2",
+          "filename": "L3 - LP2.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 678059,
+          "visibility": "student",
+          "sha256": "fde7dc511ec18d7d7ffc3125e8c3be8f03de1e1e8274074b444576666cbb1603",
+          "key": "materials/v1/fde7dc511ec18d7d7ffc3125e8c3be8f03de1e1e8274074b444576666cbb1603.mp3",
+          "order": 12,
+          "duration": 70
+        },
+        {
+          "id": "lesson03-lp03",
+          "title": "Listening practice 3",
+          "filename": "L3 - LP3.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 544332,
+          "visibility": "student",
+          "sha256": "34fb48e0aba0e2d29151b4b3e6d268a2fec7c7be6f040f454c74a8bc87ae9993",
+          "key": "materials/v1/34fb48e0aba0e2d29151b4b3e6d268a2fec7c7be6f040f454c74a8bc87ae9993.mp3",
+          "order": 13,
+          "duration": 57
+        },
+        {
+          "id": "lesson03-lp04-video",
+          "title": "Lesson video 4",
+          "filename": "L3 - LP4 - V1.mp4",
+          "kind": "video",
+          "mime": "video/mp4",
+          "size": 4968073,
+          "visibility": "student",
+          "sha256": "1c6461f7524695b0ac1b196f824f8f21f8ce96b542fdf2021cfe808ce533ce6c",
+          "key": "materials/v1/1c6461f7524695b0ac1b196f824f8f21f8ce96b542fdf2021cfe808ce533ce6c.mp4",
+          "order": 14,
+          "duration": 25
+        },
+        {
+          "id": "lesson03-lp05",
+          "title": "Listening practice 5",
+          "filename": "L3 - LP5.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 777625,
+          "visibility": "student",
+          "sha256": "96d4d976f63df30ba6d9ae168034a09fa1b8686976782869c1fa8b501880bc3c",
+          "key": "materials/v1/96d4d976f63df30ba6d9ae168034a09fa1b8686976782869c1fa8b501880bc3c.mp3",
+          "order": 15,
+          "duration": 81
+        },
+        {
+          "id": "day03-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 3 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 3449124,
+          "visibility": "teacher",
+          "sha256": "766de6f096c7dfa1b56ba850b0ff94f6989bc81ae8f82ce83985d5c71baf74be",
+          "key": "materials/v1/766de6f096c7dfa1b56ba850b0ff94f6989bc81ae8f82ce83985d5c71baf74be.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "lesson": 4,
+      "title": "Listening comprehension",
+      "type": "lesson",
+      "files": [
+        {
+          "id": "day04-book",
+          "title": "Student book",
+          "filename": "Day 4 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 576405,
+          "visibility": "student",
+          "sha256": "3ca2da3970578e9d35330fe4d462f3c8bed7d8118937d46944a2b9371c912b2e",
+          "key": "materials/v1/3ca2da3970578e9d35330fe4d462f3c8bed7d8118937d46944a2b9371c912b2e.pdf",
+          "order": 0
+        },
+        {
+          "id": "lesson04-lp01",
+          "title": "Listening practice 1",
+          "filename": "L4 - LP1.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 4924648,
+          "visibility": "student",
+          "sha256": "64e372615c93033caac5974c1ab49426a2d3a3f2735bc145334fe5c0d9970036",
+          "key": "materials/v1/64e372615c93033caac5974c1ab49426a2d3a3f2735bc145334fe5c0d9970036.mp3",
+          "order": 11,
+          "duration": 123
+        },
+        {
+          "id": "lesson04-lp02",
+          "title": "Listening practice 2",
+          "filename": "L4 - LP2.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 7031162,
+          "visibility": "student",
+          "sha256": "312f9c639492ef0ddc10884a5e3ce418329ee921b92a5d3225a08ad65de4878e",
+          "key": "materials/v1/312f9c639492ef0ddc10884a5e3ce418329ee921b92a5d3225a08ad65de4878e.mp3",
+          "order": 12,
+          "duration": 176
+        },
+        {
+          "id": "lesson04-lp03",
+          "title": "Listening practice 3",
+          "filename": "L4 - LP3 .mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 2281474,
+          "visibility": "student",
+          "sha256": "1da387441d6d2842b17ccb1be340ab2dd1cba28e1dad0ab8eac267711074f089",
+          "key": "materials/v1/1da387441d6d2842b17ccb1be340ab2dd1cba28e1dad0ab8eac267711074f089.mp3",
+          "order": 13,
+          "duration": 95
+        },
+        {
+          "id": "day04-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 4 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 1801894,
+          "visibility": "teacher",
+          "sha256": "6d01d9498f4cb5f1ab7e270ff72d348dbabd5987a9866eecdf42f1c3b3a5b2ab",
+          "key": "materials/v1/6d01d9498f4cb5f1ab7e270ff72d348dbabd5987a9866eecdf42f1c3b3a5b2ab.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "lesson": null,
+      "title": "Listening Practice Test 1",
+      "type": "practice",
+      "files": [
+        {
+          "id": "day05-book",
+          "title": "Student book",
+          "filename": "Day 5 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 373299,
+          "visibility": "student",
+          "sha256": "e33bbf73154283b739b88d31d690a844dd475e20dab15bb71a5260d8b37505ce",
+          "key": "materials/v1/e33bbf73154283b739b88d31d690a844dd475e20dab15bb71a5260d8b37505ce.pdf",
+          "order": 0
+        },
+        {
+          "id": "practice-test-1-audio",
+          "title": "Practice Test 1 recording",
+          "filename": "Practice Test 1.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 29244230,
+          "visibility": "student",
+          "sha256": "14bfe8c7e2f79f609471d59a062970cf8d354b3fda3941c8414c5026705d4bf9",
+          "key": "materials/v1/14bfe8c7e2f79f609471d59a062970cf8d354b3fda3941c8414c5026705d4bf9.mp3",
+          "order": 10,
+          "duration": 1828
+        },
+        {
+          "id": "day05-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 5 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 1956447,
+          "visibility": "teacher",
+          "sha256": "bb0f0482a31874a666a906d1a64b01e61c6d9c413c2c5284a3a9ecc714ce782d",
+          "key": "materials/v1/bb0f0482a31874a666a906d1a64b01e61c6d9c413c2c5284a3a9ecc714ce782d.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 6,
+      "lesson": 5,
+      "title": "Understanding different accents",
+      "type": "lesson",
+      "files": [
+        {
+          "id": "day06-book",
+          "title": "Student book",
+          "filename": "Day 6 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 474733,
+          "visibility": "student",
+          "sha256": "a5862c49e131b000673b393a36d78ca301c6c352f61d497e64adfbc3a5c7c2ce",
+          "key": "materials/v1/a5862c49e131b000673b393a36d78ca301c6c352f61d497e64adfbc3a5c7c2ce.pdf",
+          "order": 0
+        },
+        {
+          "id": "lesson05-lp01",
+          "title": "Listening practice 1",
+          "filename": "L5 - LP1.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 1169285,
+          "visibility": "student",
+          "sha256": "677cdd14527f214d33a40b6d42037e7c5c2b47ea59794305d5711e89d27228bf",
+          "key": "materials/v1/677cdd14527f214d33a40b6d42037e7c5c2b47ea59794305d5711e89d27228bf.mp3",
+          "order": 11,
+          "duration": 29
+        },
+        {
+          "id": "lesson05-lp02",
+          "title": "Listening practice 2",
+          "filename": "L5 - LP2.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 987472,
+          "visibility": "student",
+          "sha256": "4dd0055a8fa99c616692a0d0ef3f26ed4e31b7d548c926832d342e11f4bc6f0f",
+          "key": "materials/v1/4dd0055a8fa99c616692a0d0ef3f26ed4e31b7d548c926832d342e11f4bc6f0f.mp3",
+          "order": 12,
+          "duration": 25
+        },
+        {
+          "id": "lesson05-lp03",
+          "title": "Listening practice 3",
+          "filename": "L5 - LP3.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 1194362,
+          "visibility": "student",
+          "sha256": "d43cc53ee2d89d84d0d01f933352efb9ffa3ea77c57b6b551b6602c2a198cbb0",
+          "key": "materials/v1/d43cc53ee2d89d84d0d01f933352efb9ffa3ea77c57b6b551b6602c2a198cbb0.mp3",
+          "order": 13,
+          "duration": 30
+        },
+        {
+          "id": "lesson05-lp04",
+          "title": "Listening practice 4",
+          "filename": "L5 - LP4.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 894476,
+          "visibility": "student",
+          "sha256": "d58f98a6512b19821451c1aedb2ea7e586733ad6838952507242e5b03455be89",
+          "key": "materials/v1/d58f98a6512b19821451c1aedb2ea7e586733ad6838952507242e5b03455be89.mp3",
+          "order": 14,
+          "duration": 22
+        },
+        {
+          "id": "lesson05-lp05",
+          "title": "Listening practice 5",
+          "filename": "L5 - LP5.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 5449187,
+          "visibility": "student",
+          "sha256": "a69adbaa0d4dfa448d7b0cf3ce1fe80f0f20853a3b65b5e2041b036f6411c461",
+          "key": "materials/v1/a69adbaa0d4dfa448d7b0cf3ce1fe80f0f20853a3b65b5e2041b036f6411c461.mp3",
+          "order": 15,
+          "duration": 136
+        },
+        {
+          "id": "day06-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 6 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 2551359,
+          "visibility": "teacher",
+          "sha256": "a67537c0fe225696b12037ca29461550823240c9c47309b018ddd2df4e4106af",
+          "key": "materials/v1/a67537c0fe225696b12037ca29461550823240c9c47309b018ddd2df4e4106af.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 8,
+      "lesson": 7,
+      "title": "Understanding the context",
+      "type": "lesson",
+      "files": [
+        {
+          "id": "day08-book",
+          "title": "Student book",
+          "filename": "Day 8 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 502569,
+          "visibility": "student",
+          "sha256": "77c8ee4b8d7c204683bb6dafff717d8a3b8e1d030cf439fdf1d7b3ee1b4d13d6",
+          "key": "materials/v1/77c8ee4b8d7c204683bb6dafff717d8a3b8e1d030cf439fdf1d7b3ee1b4d13d6.pdf",
+          "order": 0
+        },
+        {
+          "id": "lesson07-lp01",
+          "title": "Listening practice 1",
+          "filename": "L7 - LP1.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 1880731,
+          "visibility": "student",
+          "sha256": "b81ac241f21e98bb669d9967a1f7875cf6911f6605d3bc1b5a7dc1fd9eaedf54",
+          "key": "materials/v1/b81ac241f21e98bb669d9967a1f7875cf6911f6605d3bc1b5a7dc1fd9eaedf54.mp3",
+          "order": 11,
+          "duration": 47
+        },
+        {
+          "id": "lesson07-lp02",
+          "title": "Listening practice 2",
+          "filename": "L7 - LP2.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 1874462,
+          "visibility": "student",
+          "sha256": "c3d87de5f34d4a2716b214ce13b3929de8833838ac11fb6655ef52ba28b59a8f",
+          "key": "materials/v1/c3d87de5f34d4a2716b214ce13b3929de8833838ac11fb6655ef52ba28b59a8f.mp3",
+          "order": 12,
+          "duration": 47
+        },
+        {
+          "id": "day08-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 8 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 1180910,
+          "visibility": "teacher",
+          "sha256": "868024262df75d5f220e895703459e5a8eb068b06707194edc4b6098b75e7e34",
+          "key": "materials/v1/868024262df75d5f220e895703459e5a8eb068b06707194edc4b6098b75e7e34.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 9,
+      "lesson": 8,
+      "title": "Listening for detail and gist",
+      "type": "lesson",
+      "files": [
+        {
+          "id": "day09-book",
+          "title": "Student book",
+          "filename": "Day 9 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 465646,
+          "visibility": "student",
+          "sha256": "6f8f1d0f2a227d60b204d2a930f2e3f1b2981c34ed07c22f9e8c19fa5167b749",
+          "key": "materials/v1/6f8f1d0f2a227d60b204d2a930f2e3f1b2981c34ed07c22f9e8c19fa5167b749.pdf",
+          "order": 0
+        },
+        {
+          "id": "lesson08-lp01",
+          "title": "Listening practice 1",
+          "filename": "L8 - LP1.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 1236419,
+          "visibility": "student",
+          "sha256": "50e73b43281fe6ce7a7c65d426b7d385269804def2bc17711b7e9cbd67b4a686",
+          "key": "materials/v1/50e73b43281fe6ce7a7c65d426b7d385269804def2bc17711b7e9cbd67b4a686.mp3",
+          "order": 11,
+          "duration": 129
+        },
+        {
+          "id": "lesson08-lp02",
+          "title": "Listening practice 2",
+          "filename": "L8 - LP2.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 341061,
+          "visibility": "student",
+          "sha256": "d53bd3d6cda308798952c97bd40b6d2aa9a3a73786d9bd04aa5eae29024fd88d",
+          "key": "materials/v1/d53bd3d6cda308798952c97bd40b6d2aa9a3a73786d9bd04aa5eae29024fd88d.mp3",
+          "order": 12,
+          "duration": 35
+        },
+        {
+          "id": "lesson08-lp03",
+          "title": "Listening practice 3",
+          "filename": "L8 - LP3.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 1587089,
+          "visibility": "student",
+          "sha256": "18635233a9b7e784730f54ea8bac77788dd410923cc70d96715636f8d1523a06",
+          "key": "materials/v1/18635233a9b7e784730f54ea8bac77788dd410923cc70d96715636f8d1523a06.mp3",
+          "order": 13,
+          "duration": 149
+        },
+        {
+          "id": "day09-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 9 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 1349943,
+          "visibility": "teacher",
+          "sha256": "34fa306c47e68e5ad9049f40f531e3265367f7f0671354e7b22349a1e2c3fe7a",
+          "key": "materials/v1/34fa306c47e68e5ad9049f40f531e3265367f7f0671354e7b22349a1e2c3fe7a.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 10,
+      "lesson": null,
+      "title": "Listening Practice Test 2",
+      "type": "practice",
+      "files": [
+        {
+          "id": "day10-book",
+          "title": "Student book",
+          "filename": "Day 10 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 271833,
+          "visibility": "student",
+          "sha256": "8d6b158f56d94eecf0665d6d6701acd64baebcfe1a09bcae76fab53dd3672d7c",
+          "key": "materials/v1/8d6b158f56d94eecf0665d6d6701acd64baebcfe1a09bcae76fab53dd3672d7c.pdf",
+          "order": 0
+        },
+        {
+          "id": "day10-editable-book",
+          "title": "Editable student book",
+          "filename": "Day 10 SB.docx",
+          "kind": "document",
+          "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "size": 232827,
+          "visibility": "student",
+          "sha256": "5a5d1b6da611c3a22ed373965383fa336f930af1b9ea075f1193e956d7462dc0",
+          "key": "materials/v1/5a5d1b6da611c3a22ed373965383fa336f930af1b9ea075f1193e956d7462dc0.docx",
+          "order": 1
+        },
+        {
+          "id": "practice-test-2-audio",
+          "title": "Practice Test 2 recording",
+          "filename": "Practice Test 2.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 61220615,
+          "visibility": "student",
+          "sha256": "65683e12b9180634d3e72041ccf1c5c32af10690178aa5495725c178abc341f1",
+          "key": "materials/v1/65683e12b9180634d3e72041ccf1c5c32af10690178aa5495725c178abc341f1.mp3",
+          "order": 10,
+          "duration": 1530
+        },
+        {
+          "id": "day10-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 10 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 2086154,
+          "visibility": "teacher",
+          "sha256": "bd0d57f8f85c7d37adf725f1b13b82f105c24300db7662246a41815ec0746099",
+          "key": "materials/v1/bd0d57f8f85c7d37adf725f1b13b82f105c24300db7662246a41815ec0746099.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 11,
+      "lesson": 9,
+      "title": "Using the correct spelling",
+      "type": "lesson",
+      "files": [
+        {
+          "id": "day11-book",
+          "title": "Student book",
+          "filename": "Day 11 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 1047167,
+          "visibility": "student",
+          "sha256": "7ebf3930c83e544de6382cdbde334771ddbd119abc5c26432a896ab2782cb2b2",
+          "key": "materials/v1/7ebf3930c83e544de6382cdbde334771ddbd119abc5c26432a896ab2782cb2b2.pdf",
+          "order": 0
+        },
+        {
+          "id": "lesson09-lp02",
+          "title": "Listening practice 2",
+          "filename": "L9 - LP2.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 767522,
+          "visibility": "student",
+          "sha256": "332a020f6a098b22fa3dc0698f5f7b16b2ef15bb78ae5f71453b6888d388fd36",
+          "key": "materials/v1/332a020f6a098b22fa3dc0698f5f7b16b2ef15bb78ae5f71453b6888d388fd36.mp3",
+          "order": 12,
+          "duration": 38
+        },
+        {
+          "id": "lesson09-lp03",
+          "title": "Listening practice 3",
+          "filename": "L9 - LP3.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 1821302,
+          "visibility": "student",
+          "sha256": "90c908eac5e1e82bec20bf891b8f3547301c758b86fc262317d49144d57aea3c",
+          "key": "materials/v1/90c908eac5e1e82bec20bf891b8f3547301c758b86fc262317d49144d57aea3c.mp3",
+          "order": 13,
+          "duration": 91
+        },
+        {
+          "id": "lesson09-lp04",
+          "title": "Listening practice 4",
+          "filename": "L9 - LP4.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 1110873,
+          "visibility": "student",
+          "sha256": "ddc602feade5a51737ab381a9417ddd49439e1d3d6adc3b9703a09de353b2150",
+          "key": "materials/v1/ddc602feade5a51737ab381a9417ddd49439e1d3d6adc3b9703a09de353b2150.mp3",
+          "order": 14,
+          "duration": 123
+        },
+        {
+          "id": "lesson09-lp05",
+          "title": "Listening practice 5",
+          "filename": "L9 - LP5.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 1614180,
+          "visibility": "student",
+          "sha256": "e8b1a8fc0639ea6d7f6efd8e11041cb222e91f5788c846385adc972ce20402bc",
+          "key": "materials/v1/e8b1a8fc0639ea6d7f6efd8e11041cb222e91f5788c846385adc972ce20402bc.mp3",
+          "order": 15,
+          "duration": 168
+        },
+        {
+          "id": "day11-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 11 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 1963655,
+          "visibility": "teacher",
+          "sha256": "aabbb724c25daa7f3acfd1d07fe2f9cb49ad4c9c6074ef72953cd14d06dcb6bd",
+          "key": "materials/v1/aabbb724c25daa7f3acfd1d07fe2f9cb49ad4c9c6074ef72953cd14d06dcb6bd.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 12,
+      "lesson": 10,
+      "title": "Writing numbers",
+      "type": "lesson",
+      "files": [
+        {
+          "id": "day12-book",
+          "title": "Student book",
+          "filename": "Day 12 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 451961,
+          "visibility": "student",
+          "sha256": "06ac630ee5fe81c6ff9fb9d0a9721d6347ff75b44191aa8f67aa7d95047191e0",
+          "key": "materials/v1/06ac630ee5fe81c6ff9fb9d0a9721d6347ff75b44191aa8f67aa7d95047191e0.pdf",
+          "order": 0
+        },
+        {
+          "id": "lesson10-lp01",
+          "title": "Listening practice 1",
+          "filename": "L10 - LP1.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 2061499,
+          "visibility": "student",
+          "sha256": "4b02d36ec83399af5e29ead0dd54e278186f5f10850fe60b630a4245e4141fe2",
+          "key": "materials/v1/4b02d36ec83399af5e29ead0dd54e278186f5f10850fe60b630a4245e4141fe2.mp3",
+          "order": 11,
+          "duration": 51
+        },
+        {
+          "id": "lesson10-lp02",
+          "title": "Listening practice 2",
+          "filename": "L10 - LP2.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 8771833,
+          "visibility": "student",
+          "sha256": "832cbb0cc094d16c82c5f1272260d784b915bc541eb89232b2889348701137e6",
+          "key": "materials/v1/832cbb0cc094d16c82c5f1272260d784b915bc541eb89232b2889348701137e6.mp3",
+          "order": 12,
+          "duration": 219
+        },
+        {
+          "id": "lesson10-lp03",
+          "title": "Listening practice 3",
+          "filename": "L10 - LP3.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 3140878,
+          "visibility": "student",
+          "sha256": "e7eb0bd7c4191bd65661f0537a7f1515a15ed54a49aa6bf82cef22d0f924773a",
+          "key": "materials/v1/e7eb0bd7c4191bd65661f0537a7f1515a15ed54a49aa6bf82cef22d0f924773a.mp3",
+          "order": 13,
+          "duration": 78
+        },
+        {
+          "id": "lesson10-lp04",
+          "title": "Listening practice 4",
+          "filename": "L10 - LP4.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 2665450,
+          "visibility": "student",
+          "sha256": "b479507df1ee5e9fff3bb485fd55e4e95dfe474f07053f19b57dae824de82bae",
+          "key": "materials/v1/b479507df1ee5e9fff3bb485fd55e4e95dfe474f07053f19b57dae824de82bae.mp3",
+          "order": 14,
+          "duration": 67
+        },
+        {
+          "id": "day12-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 12 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 1815946,
+          "visibility": "teacher",
+          "sha256": "652d44edd35298961f22708015ccc73bd7d09f994b46d93450800c29fba86d43",
+          "key": "materials/v1/652d44edd35298961f22708015ccc73bd7d09f994b46d93450800c29fba86d43.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 13,
+      "lesson": 11,
+      "title": "Identifying the speakers",
+      "type": "lesson",
+      "files": [
+        {
+          "id": "day13-book",
+          "title": "Student book",
+          "filename": "Day 13 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 615305,
+          "visibility": "student",
+          "sha256": "7a7ac14c5d30b75ade3390bda5ddd8fe4dfa597c781ed9fdda2b8739ad597814",
+          "key": "materials/v1/7a7ac14c5d30b75ade3390bda5ddd8fe4dfa597c781ed9fdda2b8739ad597814.pdf",
+          "order": 0
+        },
+        {
+          "id": "lesson11-lp01",
+          "title": "Listening practice 1",
+          "filename": "L11 - LP1 .mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 1162806,
+          "visibility": "student",
+          "sha256": "bdac651acb2f50d4e689f760394f21785113a05b48ea9ffb4506928a08709557",
+          "key": "materials/v1/bdac651acb2f50d4e689f760394f21785113a05b48ea9ffb4506928a08709557.mp3",
+          "order": 11,
+          "duration": 73
+        },
+        {
+          "id": "lesson11-lp02",
+          "title": "Listening practice 2",
+          "filename": "L11 - LP2.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 2418533,
+          "visibility": "student",
+          "sha256": "08f0e0c275ca6ce65261e6522303596a1348cc94d8ec68b9475451cb48578e1f",
+          "key": "materials/v1/08f0e0c275ca6ce65261e6522303596a1348cc94d8ec68b9475451cb48578e1f.mp3",
+          "order": 12,
+          "duration": 231
+        },
+        {
+          "id": "lesson11-lp03",
+          "title": "Listening practice 3",
+          "filename": "L11 - LP3.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 1761007,
+          "visibility": "student",
+          "sha256": "bed1002e346b62f2a3ede95c8710898a785c5cb73081e41638d845af23f114ba",
+          "key": "materials/v1/bed1002e346b62f2a3ede95c8710898a785c5cb73081e41638d845af23f114ba.mp3",
+          "order": 13,
+          "duration": 169
+        },
+        {
+          "id": "day13-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 13 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 1291007,
+          "visibility": "teacher",
+          "sha256": "7df82e462ecadd34ea85cc62c3a1a3b6956f226000e367bbe78845606600f88f",
+          "key": "materials/v1/7df82e462ecadd34ea85cc62c3a1a3b6956f226000e367bbe78845606600f88f.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 14,
+      "lesson": 12,
+      "title": "Identifying function",
+      "type": "lesson",
+      "files": [
+        {
+          "id": "day14-book",
+          "title": "Student book",
+          "filename": "Day 14 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 432311,
+          "visibility": "student",
+          "sha256": "8735f290908ceae05dc181b5c1263b3347f468081d076bf1e87f6a20091e1ce0",
+          "key": "materials/v1/8735f290908ceae05dc181b5c1263b3347f468081d076bf1e87f6a20091e1ce0.pdf",
+          "order": 0
+        },
+        {
+          "id": "lesson12-lp01",
+          "title": "Listening practice 1",
+          "filename": "L12 - LP1.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 1030410,
+          "visibility": "student",
+          "sha256": "af38a2bac8ed28edaad473bd08aa699d92a2f92f3053593522422d89b6a4ca53",
+          "key": "materials/v1/af38a2bac8ed28edaad473bd08aa699d92a2f92f3053593522422d89b6a4ca53.mp3",
+          "order": 11,
+          "duration": 100
+        },
+        {
+          "id": "lesson12-lp02",
+          "title": "Listening practice 2",
+          "filename": "L12 - LP2.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 1024252,
+          "visibility": "student",
+          "sha256": "235e42ceecd3ebd42fd1b70326e43bd133044fe582ec5a339bfbfafd442d9d55",
+          "key": "materials/v1/235e42ceecd3ebd42fd1b70326e43bd133044fe582ec5a339bfbfafd442d9d55.mp3",
+          "order": 12,
+          "duration": 100
+        },
+        {
+          "id": "day14-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 14 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 1439561,
+          "visibility": "teacher",
+          "sha256": "89f48abd77d7f270b0f613598504db2affd0a4c4c58a2be0daa5a6166042b81e",
+          "key": "materials/v1/89f48abd77d7f270b0f613598504db2affd0a4c4c58a2be0daa5a6166042b81e.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 15,
+      "lesson": null,
+      "title": "Listening Practice Test 3",
+      "type": "practice",
+      "files": [
+        {
+          "id": "day15-book",
+          "title": "Student book",
+          "filename": "Day 15 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 84415,
+          "visibility": "student",
+          "sha256": "762a3b2bee8acb3441af1d6a6cb6301a5f92e96cbe1323e1b35886ed3b09d50a",
+          "key": "materials/v1/762a3b2bee8acb3441af1d6a6cb6301a5f92e96cbe1323e1b35886ed3b09d50a.pdf",
+          "order": 0
+        },
+        {
+          "id": "practice-test-3-audio",
+          "title": "Practice Test 3 recording",
+          "filename": "Practice Test 3.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 77308909,
+          "visibility": "student",
+          "sha256": "93371ec58660c595a66159e6af8fcef28668637b59175c2543e48b16244226de",
+          "key": "materials/v1/93371ec58660c595a66159e6af8fcef28668637b59175c2543e48b16244226de.mp3",
+          "order": 10,
+          "duration": 1933
+        },
+        {
+          "id": "day15-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 15 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 2317906,
+          "visibility": "teacher",
+          "sha256": "152ee18c56045b0fffbb47515387ca07d8d4206dc14902145c645770027704ec",
+          "key": "materials/v1/152ee18c56045b0fffbb47515387ca07d8d4206dc14902145c645770027704ec.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 17,
+      "lesson": 14,
+      "title": "Identifying distractors",
+      "type": "lesson",
+      "files": [
+        {
+          "id": "day17-book",
+          "title": "Student book",
+          "filename": "Day 17 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 456549,
+          "visibility": "student",
+          "sha256": "3e1ab25a1b4f946671d654d4c9d0188897e603a06134c1bcaaf72a00da9e1ed7",
+          "key": "materials/v1/3e1ab25a1b4f946671d654d4c9d0188897e603a06134c1bcaaf72a00da9e1ed7.pdf",
+          "order": 0
+        },
+        {
+          "id": "lesson14-lp01",
+          "title": "Listening practice 1",
+          "filename": "L14 - LP1.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 6131376,
+          "visibility": "student",
+          "sha256": "23b7db207f990a90fdae3817ced263daa4be6a4f576bff4dbe3811d3b4694950",
+          "key": "materials/v1/23b7db207f990a90fdae3817ced263daa4be6a4f576bff4dbe3811d3b4694950.mp3",
+          "order": 11,
+          "duration": 153
+        },
+        {
+          "id": "lesson14-lp02",
+          "title": "Listening practice 2",
+          "filename": "L14 - LP2.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 6102119,
+          "visibility": "student",
+          "sha256": "1dd09b0bf4427be40dabdb2e5f9adde2565f9ee97f981e8d992d7bb3a8287806",
+          "key": "materials/v1/1dd09b0bf4427be40dabdb2e5f9adde2565f9ee97f981e8d992d7bb3a8287806.mp3",
+          "order": 12,
+          "duration": 152
+        },
+        {
+          "id": "day17-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 17 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 1534010,
+          "visibility": "teacher",
+          "sha256": "6ca844b00b3a0dc2fbf07a2e8a629c508983e8076658287e83f554f35c91ebd9",
+          "key": "materials/v1/6ca844b00b3a0dc2fbf07a2e8a629c508983e8076658287e83f554f35c91ebd9.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 18,
+      "lesson": 15,
+      "title": "Recognising paraphrase",
+      "type": "lesson",
+      "files": [
+        {
+          "id": "day18-book",
+          "title": "Student book",
+          "filename": "Day 18 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 426080,
+          "visibility": "student",
+          "sha256": "aa0a1dcb769f240f6674d3703f3bee31f68f5ab63ba6f44b1eded7a1e3adfd03",
+          "key": "materials/v1/aa0a1dcb769f240f6674d3703f3bee31f68f5ab63ba6f44b1eded7a1e3adfd03.pdf",
+          "order": 0
+        },
+        {
+          "id": "lesson15-lp01",
+          "title": "Listening practice 1",
+          "filename": "L15 - LP1.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 1482647,
+          "visibility": "student",
+          "sha256": "ed6920a28d82b525086283ef39ead624e9adb5cae7ec61ad5e0fe7b4140e5ed5",
+          "key": "materials/v1/ed6920a28d82b525086283ef39ead624e9adb5cae7ec61ad5e0fe7b4140e5ed5.mp3",
+          "order": 11,
+          "duration": 151
+        },
+        {
+          "id": "lesson15-lp02",
+          "title": "Listening practice 2",
+          "filename": "L15 - LP2.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 1485023,
+          "visibility": "student",
+          "sha256": "2843010f5cf2e9c4d9e7f7faa42f2eb4194dae3682087d6668c96aad612e83ab",
+          "key": "materials/v1/2843010f5cf2e9c4d9e7f7faa42f2eb4194dae3682087d6668c96aad612e83ab.mp3",
+          "order": 12,
+          "duration": 151
+        },
+        {
+          "id": "day18-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 18 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 1898563,
+          "visibility": "teacher",
+          "sha256": "c2aa768518444973bb89edd89a8e6f72c6eae0d916b4b0fc2591635d9201074f",
+          "key": "materials/v1/c2aa768518444973bb89edd89a8e6f72c6eae0d916b4b0fc2591635d9201074f.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 19,
+      "lesson": 16,
+      "title": "Selecting from a list",
+      "type": "lesson",
+      "files": [
+        {
+          "id": "day19-book",
+          "title": "Student book",
+          "filename": "Day 19 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 1215058,
+          "visibility": "student",
+          "sha256": "81e269b4a5f7fed10640cf94c5b80ea2e80764b9b806590f2dac7b6e92d16944",
+          "key": "materials/v1/81e269b4a5f7fed10640cf94c5b80ea2e80764b9b806590f2dac7b6e92d16944.pdf",
+          "order": 0
+        },
+        {
+          "id": "lesson16-lp01",
+          "title": "Listening practice 1",
+          "filename": "L16 - LP1.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 3134738,
+          "visibility": "student",
+          "sha256": "c3546797409af98df85fc7f13102d434d519148244c7080da539215ec2c9c247",
+          "key": "materials/v1/c3546797409af98df85fc7f13102d434d519148244c7080da539215ec2c9c247.mp3",
+          "order": 11,
+          "duration": 78
+        },
+        {
+          "id": "lesson16-lp02",
+          "title": "Listening practice 2",
+          "filename": "L16 - LP2.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 3134738,
+          "visibility": "student",
+          "sha256": "401643d89c9e530b1e6644ce42581a4ad0b15deae9efcfb17197f7f9696cb5c0",
+          "key": "materials/v1/401643d89c9e530b1e6644ce42581a4ad0b15deae9efcfb17197f7f9696cb5c0.mp3",
+          "order": 12,
+          "duration": 78
+        },
+        {
+          "id": "lesson16-lp03",
+          "title": "Listening practice 3",
+          "filename": "L16 - LP3.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 17797791,
+          "visibility": "student",
+          "sha256": "b855e1a7ea4fabb539cc7c7d3fa7c8016825adc357b9228c3dfb6ad6c11bd70f",
+          "key": "materials/v1/b855e1a7ea4fabb539cc7c7d3fa7c8016825adc357b9228c3dfb6ad6c11bd70f.mp3",
+          "order": 13,
+          "duration": 445
+        },
+        {
+          "id": "day19-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 19 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 2271334,
+          "visibility": "teacher",
+          "sha256": "d436983a7adb0d11dae342fef34d146617487d2272fa9a79ac5a2d103dfa9909",
+          "key": "materials/v1/d436983a7adb0d11dae342fef34d146617487d2272fa9a79ac5a2d103dfa9909.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 20,
+      "lesson": null,
+      "title": "Listening Practice Test 4",
+      "type": "practice",
+      "files": [
+        {
+          "id": "day20-book",
+          "title": "Student book",
+          "filename": "Day 20 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 249761,
+          "visibility": "student",
+          "sha256": "1a45a91dcffa9c950893240dec07cfd541e7f52e6ae9db24f07499f53d750ad2",
+          "key": "materials/v1/1a45a91dcffa9c950893240dec07cfd541e7f52e6ae9db24f07499f53d750ad2.pdf",
+          "order": 0
+        },
+        {
+          "id": "practice-test-4-audio",
+          "title": "Practice Test 4 recording",
+          "filename": "Practice Test 4.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 60631293,
+          "visibility": "student",
+          "sha256": "c6f0e084d7685204ecf6f5977fba5b84f96b165c6d123d83839f7e1d45ed4371",
+          "key": "materials/v1/c6f0e084d7685204ecf6f5977fba5b84f96b165c6d123d83839f7e1d45ed4371.mp3",
+          "order": 10,
+          "duration": 1516
+        },
+        {
+          "id": "day20-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 20 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 1993675,
+          "visibility": "teacher",
+          "sha256": "6b9a173640b22b9ca776e07fc11f4437a05d7bfb8aae28b28476327d388ae2ec",
+          "key": "materials/v1/6b9a173640b22b9ca776e07fc11f4437a05d7bfb8aae28b28476327d388ae2ec.pptx",
+          "order": 100
+        }
+      ]
+    },
+    {
+      "day": 21,
+      "lesson": 17,
+      "title": "Describing a place",
+      "type": "lesson",
+      "files": [
+        {
+          "id": "day21-book",
+          "title": "Student book",
+          "filename": "Day 21 SB.pdf",
+          "kind": "document",
+          "mime": "application/pdf",
+          "size": 1128726,
+          "visibility": "student",
+          "sha256": "7f590c0cbe4ddc19db83da1ef79915131e2001d1c7c7ec867f3878309f2c6a1a",
+          "key": "materials/v1/7f590c0cbe4ddc19db83da1ef79915131e2001d1c7c7ec867f3878309f2c6a1a.pdf",
+          "order": 0
+        },
+        {
+          "id": "lesson17-lp01",
+          "title": "Listening practice 1",
+          "filename": "L17 - LP1.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 5757431,
+          "visibility": "student",
+          "sha256": "361f63b5cebc391b7dc7df974d3321018fa84400d5cb7b6fc76cac803a26be68",
+          "key": "materials/v1/361f63b5cebc391b7dc7df974d3321018fa84400d5cb7b6fc76cac803a26be68.mp3",
+          "order": 11,
+          "duration": 144
+        },
+        {
+          "id": "lesson17-lp02",
+          "title": "Listening practice 2",
+          "filename": "L17 - LP2.mp3",
+          "kind": "audio",
+          "mime": "audio/mpeg",
+          "size": 5757431,
+          "visibility": "student",
+          "sha256": "f541fa0f29afe3d2e5c4fd1ebe7a0fea3733b5c123ab4063f8e1d149b2e8f143",
+          "key": "materials/v1/f541fa0f29afe3d2e5c4fd1ebe7a0fea3733b5c123ab4063f8e1d149b2e8f143.mp3",
+          "order": 12,
+          "duration": 144
+        },
+        {
+          "id": "day21-teacher-slides",
+          "title": "Teacher slides",
+          "filename": "Day 21 TG.pptx",
+          "kind": "slides",
+          "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "size": 3661849,
+          "visibility": "teacher",
+          "sha256": "bd36656a514d77178737aa478537c3fa562e6fd0616d8eb8984889e16c5e7cd7",
+          "key": "materials/v1/bd36656a514d77178737aa478537c3fa562e6fd0616d8eb8984889e16c5e7cd7.pptx",
+          "order": 100
+        }
+      ]
+    }
+  ]
+}

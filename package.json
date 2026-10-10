@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node scripts/configure-classroom.mjs && node --check dist/app.js && node --check dist/data.js && node --check dist/grammar.js && node --check dist/classroom.js && node --check server/index.mjs",
-    "test": "node tests/check.mjs && node tests/classroom.mjs",
+    "check": "node scripts/configure-classroom.mjs && node --check dist/app.js && node --check dist/data.js && node --check dist/grammar.js && node --check dist/classroom.js && node --check server/index.mjs && node --check server/materials.mjs && node --check dist/materials.js && node --check dist/materials-data.js",
+    "test": "node tests/check.mjs && node tests/classroom.mjs && node tests/materials.mjs",
     "start": "node scripts/configure-classroom.mjs && node server/index.mjs"
   },
   "engines": {
