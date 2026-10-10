@@ -3,8 +3,35 @@ services:
     runtime: static
     name: richmount-ielts
     branch: main
+    autoDeployTrigger: "off"
     buildCommand: npm run check && npm test
     staticPublishPath: dist
     envVars:
       - key: SKIP_INSTALL_DEPS
         value: "true"
+      - key: CLASSROOM_API_URL
+        sync: false
+  - type: web
+    runtime: node
+    name: richmount-ielts-classroom
+    plan: free
+    branch: main
+    autoDeployTrigger: "off"
+    buildCommand: npm run check && npm test
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: SKIP_INSTALL_DEPS
+        value: "true"
+      - key: CLASSROOM_STORE_URL
+        sync: false
+      - key: CLASSROOM_STORE_TOKEN
+        sync: false
+      - key: STORE_API_KEY
+        sync: false
+      - key: TEACHER_PASSWORD_HASH
+        sync: false
+      - key: TEACHER_SESSION_SECRET
+        sync: false
+      - key: CLASSROOM_ENCRYPTION_KEY
+        sync: false

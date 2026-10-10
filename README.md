@@ -1,22 +1,59 @@
-# Richmount IELTS Studio
+# Richmount IELTS Studio and Teacher Classroom
 
-An original IELTS Academic practice hub for Teacher Angelo’s Richmount learners, with the supplied Richmount education center logo.
+Richmount IELTS practice for Teacher Angelo’s learners, with online submissions and a private teacher dashboard.
 
-## Render deployment
+## Student experience
 
-This project contains only the website, verification scripts and Render configuration. It has no external API dependencies or secrets. Deploy as a Static Site using the `main` branch, build command `npm run check && npm test`, and publish directory `dist`. Set `SKIP_INSTALL_DEPS=true`; there are no dependencies to install. Static hosting uses the provider's free tier and workspace usage allowances.
+The existing student address stays `https://richmount-ielts.onrender.com/`.
+Students use **Your class** to enter an individual code provided by their teacher.
+After joining, completed writing, reading, listening and speaking-note activities are sent to the teacher. Mock sections are shared only when the full mock ends. Drafts remain on the device.
 
-The included `render.yaml` is an alternative Blueprint configuration. For a single site, direct creation is sufficient.
+If a request fails, an outbox retains completed work for a retry. **My progress** shows acknowledged submissions and the teacher’s feedback. Existing activities can be sent individually. Codes should be kept private because each code opens the assigned student’s online records.
 
-## Features and limits
+## Teacher experience
 
-- Writing prompts and post-submission common-error grammar checks.
-- 3 reading passages with 40 automatically marked questions.
-- 4 listening parts with 40 questions, synthetic speech and session-local teacher audio uploads.
-- Speaking prompts and local recordings, guides, timers, saved drafts, report downloads and a timed mock sequence.
+The separate Render classroom web service serves the private dashboard at `/#teacher` on its actual Render origin. A teacher password is required for every teacher API operation.
 
-Grammar checks are deterministic, not AI evaluation or IELTS band scoring. Listening tracks are shorter than official recordings. Speaking is self-reviewed. All learner drafts and results remain in the visitor's browser; the teacher receives only reports that learners choose to send. Answer keys are client-side, so the mock is a practice simulation rather than a secure examination.
+- Add the 10 learner names together, one per line, in **Students & class codes**.
+- Give each learner the usual student link and only their own code.
+- Filter the submission inbox by student, skill and review status.
+- Open original essays or all answers with recomputed practice marks.
+- Save individual feedback and an optional teacher mark; students can read it in My progress.
+- Download individual work. Change the teacher password from the dashboard.
 
-## Local checks
+Teacher sessions use signed, Secure, HttpOnly cookies. Passwords use scrypt hashes. Student codes are encrypted at rest. Students cannot list classmates, access other students’ submissions or call teacher endpoints. Changing the teacher password invalidates other teacher sessions.
 
-Run `npm run check` and `npm test`. Browser visual and audio QA was unavailable in the authoring environment.
+## Hosting and durable storage
+
+The static student site remains on the existing Render service. The new dependency-free Node web service uses the free plan. It must bind to `0.0.0.0:$PORT` and use `npm start`.
+
+The classroom uses a managed durable database through the existing owner-private storage Site. The backend uses protected server-to-server requests; database credentials and service access tokens never go to a browser. The storage Site must remain owner-private. Its schema and storage operation contract are mirrored under `storage/`; production migrations live with that Site’s source.
+
+Set `CLASSROOM_API_URL` on the static site to the exact classroom origin returned by Render. The build writes only this public origin into `dist/classroom-config.js`. The classroom service uses Render’s `RENDER_EXTERNAL_URL` for its own origin. For other environments, use `CLASSROOM_APP_URL`.
+
+Configure these **server-only** environment variables on the classroom web service:
+
+| Key | Value |
+| --- | --- |
+| `CLASSROOM_STORE_URL` | Existing private storage Site’s origin |
+| `CLASSROOM_STORE_TOKEN` | Sites service access token, sent only to that Site |
+| `STORE_API_KEY` | Matching secret configured on the storage Site |
+| `TEACHER_PASSWORD_HASH` | Initial scrypt password hash |
+| `TEACHER_SESSION_SECRET` | Random session signing secret, at least 40 characters |
+| `CLASSROOM_ENCRYPTION_KEY` | Random 32-byte key encoded as 64 hexadecimal characters |
+
+Keep the encryption and signing keys stable across deploys. Generate the initial teacher password securely and deliver it only to the teacher; never put it in this repository. Password changes are stored durably in the database. No database files are written to Render’s temporary filesystem.
+
+The current GitHub connection can read the selected RichMount repository but cannot push to it. Upload the updated source package before deploying. Auto-deploy stays off; after verifying the upload, configure the new service and trigger the affected deployments.
+
+## Checks
+
+Run `npm run check` and `npm test` with Node 22.13 or newer. No packages need to be installed.
+
+Tests cover the existing practice and mock flows plus private teacher access, independent student codes, student record isolation, marking from submitted answers, duplicate retries, feedback visibility, Unicode names, SQL parameterization, password changes, records after server restart, private storage access, offline retries, switching identities and all sections queued together.
+
+Local browser QA was unavailable in the managed authoring environment. Verify the deployed join, teacher login and feedback flows once the updated files are uploaded.
+
+## Practice limits
+
+Materials are original practice, not official IELTS questions. Grammar feedback checks common errors; it does not provide an IELTS Writing band. Reading and Listening marks are not calibrated to official bands. Speaking submissions contain preparation notes; recordings remain on the student’s device. Listening uses synthetic speech unless a matching teacher recording is loaded locally. This is a learning tool, not a secure high-stakes exam.
