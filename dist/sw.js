@@ -1,6 +1,6 @@
 // Cache the public app interface only. All classroom records, AI reviews,
 // books, slides and recordings use their existing authenticated online APIs.
-const CACHE='richmount-interface-20261030-back1';
+const CACHE='richmount-interface-20261030-back2';
 const FILES=['/index.html','/install.html','/install.js','/install.css','/assets/student-app-qr.svg','/assets/teacher-app-qr.svg','/app.js','/classroom.js','/classroom-config.js','/navigation.js','/data.js','/grammar.js','/course.js','/lessons.js','/materials.js','/materials-data.js','/audio.js','/vocabulary.js','/vocabulary-data.js','/coaching.js','/writing-studio.js','/answer-autosave.js','/automatic-feedback.js','/writing-studio.css','/notifications.js','/weekly.js','/floating-audio.js','/daily-learning.js','/attendance.js','/slides.js','/book-reader.js','/book-grades.js','/mobile.js','/style.css','/classroom.css','/course.css','/lessons.css','/materials.css','/audio.css','/vocabulary.css','/coaching.css','/notifications.css','/weekly.css','/floating-audio.css','/daily-learning.css','/attendance.css','/mobile.css','/assets/richmount-logo.jpg','/assets/app-icon-192.png','/assets/app-icon-512.png','/assets/apple-touch-icon.png'];
 const PUBLIC=new Set(FILES);
 function interfaceRequest(request){const url=new URL(request.url);return request.method==='GET'&&url.origin===self.location.origin&&!request.headers.has('Authorization')&&!request.headers.has('Range')&&[...url.searchParams.keys()].every(k=>k==='v')&&(PUBLIC.has(url.pathname)||request.mode==='navigate'&&url.pathname==='/');}
