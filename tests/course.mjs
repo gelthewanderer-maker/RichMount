@@ -1,0 +1,146 @@
+import {studentTestSession,fixturePassword} from './student-login.mjs';
+import assert from 'node:assert/strict';
+import {DatabaseSync} from 'node:sqlite';
+import {readFileSync} from 'node:fs';
+import {randomUUID,webcrypto} from 'node:crypto';
+import vm from 'node:vm';
+import catalog from '../course/catalog.json' with {type:'json'};
+import {courseActivity,courseActivities,courseMetadata,courseMarks,publicCourseValue,validateCourseSetting,buildCourseSubmissions} from '../server/course.mjs';
+import {createClassroomServer} from '../server/index.mjs';
+import {hashPassword} from '../server/security.mjs';
+import {storeOperation} from '../storage/classroom-store.js';
+import {audioForSubmission,handleAudio} from '../storage/audio-store.js';
+import {createStudentSync} from '../dist/classroom.js';
+import {words} from '../dist/grammar.js';
+import {findMaterial} from '../server/materials.mjs';
+import {studentDocumentHTML} from '../dist/materials.js';
+
+assert.equal(catalog.weeks.length,8);assert.equal(courseActivities().length,24);
+for(const w of catalog.weeks){
+ assert.equal(w.listening.questions.length,40);assert.equal(w.reading.questions.length,40);assert.equal(w.reading.passages.length,3);assert.equal(w.homework.length,2);
+ assert.ok(findMaterial(w.listening.paperId));assert.ok(findMaterial(w.listening.audioId));
+ assert.equal(findMaterial(w.listening.audioId).filename,`Practice Test ${w.week}.mp3`,'Every weekly mock uses the teacher’s corresponding uploaded recording.');
+ assert.equal(findMaterial(w.listening.paperId).filename,`Day ${w.week*5} SB.pdf`,'Each recording uses its matching uploaded paper.');
+ const count=w.reading.passages.reduce((n,p)=>n+words(p.paragraphs.join(' ')),0);assert.ok(count>=2150&&count<=2750,'Full reading length, week '+w.week);
+ assert.equal(new Set(w.reading.questions.map(q=>q.id)).size,40);
+ for(const q of w.reading.questions){assert.ok(q.answer&&q.evidence);const p=w.reading.passages.find(p=>p.id===q.passageId);assert.ok(p);assert.ok(p.paragraphs.join(' ').includes(q.evidence),'Evidence is exact for question '+q.id);if(q.options)assert.ok(q.options.some(o=>o.value===q.answer));if(q.limit)for(const a of Array.isArray(q.answer)?q.answer:[q.answer])assert.ok(words(a)<=q.limit);}
+ for(const part of ['reading','listening']){const answers=Object.fromEntries(w[part].questions.map(q=>[q.id,Array.isArray(q.answer)?q.answer[0]:q.answer]));if(part==='listening')for(const g of w.listening.gradingGroups)g.ids.forEach((id,i)=>answers[id]=Array.isArray(g.answers[i])?g.answers[i][0]:g.answers[i]);assert.equal(courseMarks(w[part].questions,answers,w[part].gradingGroups).score,40,part+' correct answers earn 40 in week '+w.week);}
+ const publicText=JSON.stringify(publicCourseValue(courseActivity('week-'+w.week+'-mock')));for(const field of ['"answer":','"evidence":','"teacherNotes":','"gradingGroups":','"sourceAnswerKey":'])assert.ok(!publicText.includes(field),'Student definitions omit '+field);
+ assert.equal(w.writing.task1.min,150);assert.equal(w.writing.task2.min,250);
+}
+const listen2=courseActivity('week-2-mock').listening,duplicated={21:'B',22:'B',23:'F'};assert.equal(courseMarks(listen2.questions,duplicated,listen2.gradingGroups).score,2,'Repeated letters cannot earn duplicate group credit.');
+const listen4=courseActivity('week-4-mock').listening;
+assert.equal(courseMarks(listen4.questions,{2:'90',5:'68',34:'1950'}).score,0,'Currency and plural decade qualifiers matter.');
+assert.equal(courseMarks(listen4.questions,{2:'£90',5:'£68',34:'1950s'}).score,3);
+const listen6=courseActivity('week-6-mock').listening;assert.equal(courseMarks(listen6.questions,{3:'6:45am to 6:15pm'}).score,1);assert.equal(courseMarks(listen6.questions,{3:'6:45am'}).score,0,'Both time blanks required for one mark.');
+for(const bad of ['2026-02-30','2026-99-99','not-a-date'])assert.throws(()=>validateCourseSetting({published:true,dueDate:bad,message:''}),/valid due date/);
+assert.throws(()=>validateCourseSetting({published:'yes',message:'',dueDate:''}),/shared/);
+
+const database=new DatabaseSync(':memory:');
+database.exec(readFileSync(new URL('../storage/0000_classroom.sql',import.meta.url),'utf8'));database.exec(readFileSync(new URL('../storage/0001_audio.sql',import.meta.url),'utf8'));
+const db={async batch(statements){database.exec('BEGIN');try{const out=[];for(const s of statements)out.push(await s.run());database.exec('COMMIT');return out;}catch(e){database.exec('ROLLBACK');throw e;}},prepare(sql){const s=database.prepare(sql);let args=[];return {bind(...v){args=v;return this;},async first(){return s.get(...args)||null;},async all(){return {results:s.all(...args)};},async run(){return s.run(...args);}};}};
+const password='Private-only-course-test-password-1',config={appOrigin:'https://teacher.test',allowedOrigins:['https://richmount-ielts.onrender.com'],passwordHash:await hashPassword(password),sessionSecret:'test-course-session-key-'.repeat(4),encryptionKey:'ba'.repeat(32),store:(op,p)=>storeOperation(db,op,p)};
+const server=createClassroomServer(config);await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const base='http://127.0.0.1:'+server.address().port;let cookie='';
+async function request(path,{method='GET',code='',json,teacher=false}={}){const response=await fetch(base+path,{method,headers:{Origin:'https://teacher.test',...(teacher?{Cookie:cookie}:{}),...(code?{Authorization:'Bearer '+await studentTestSession(base,code)}:{}),...(json?{'Content-Type':'application/json'}:{})},body:json?JSON.stringify(json):undefined});return {status:response.status,value:await response.json(),response};}
+try{
+ const login=await request('/api/teacher/login',{method:'POST',json:{password}});assert.equal(login.status,200);cookie=login.response.headers.get('set-cookie').split(';')[0];
+ await request('/api/teacher/students',{method:'POST',teacher:true,json:{names:['Course learner A','Course learner B']}});
+ const [a,b]=(await request('/api/teacher/students',{teacher:true})).value.students;
+ assert.equal((await request('/api/student/course')).status,401);assert.equal((await request('/api/teacher/course',{code:a.code})).status,401);
+ const index=(await request('/api/student/course',{code:a.code})).value;assert.equal(index.weeks.length,8);assert.equal(index.activities.length,24);
+ const definition=(await request('/api/student/course/week-1-mock',{code:a.code})).value.activity;assert.ok(!definition.listening.questions.some(q=>q.answer));assert.ok(!definition.reading.questions.some(q=>q.evidence));
+ const privateDefinition=(await request('/api/teacher/course/week-1-mock',{teacher:true})).value.activity;assert.ok(privateDefinition.reading.questions[0].answer);
+ let set=await request('/api/teacher/course/week-1-mock',{method:'PATCH',teacher:true,json:{published:false,dueDate:'2026-10-18',message:'Bring your notes. Тэмдэглэл'}});assert.equal(set.status,200);
+ assert.equal((await request('/api/student/course/week-1-mock',{code:a.code})).status,409);assert.equal((await request('/api/student/course',{code:a.code})).value.activities.length,23);
+ assert.equal((await request('/api/teacher/course/week-1-mock',{method:'PATCH',code:a.code,json:{published:true,dueDate:'',message:''}})).status,401);
+ await request('/api/teacher/course/week-1-mock',{method:'PATCH',teacher:true,json:{published:true,dueDate:'2026-10-18',message:'Bring your notes.'}});
+ const packet={id:randomUUID(),score:999,responses:{listening:{1:'unfriendly'},reading:{1:'B'},task1:'People is learning.',task2:'Students has many idea.',speaking:{notes:'A place to study',checklist:[true]}}};
+ const submitted=await request('/api/student/course/week-1-mock/submissions',{method:'POST',code:a.code,json:{packet}});assert.equal(submitted.status,201);assert.equal(submitted.value.submissions.length,5);assert.equal(submitted.value.review.length,5);
+ const read=submitted.value.review.find(r=>r.payload.kind==='reading');assert.equal(read.payload.score,1,'Marks come from answer keys, not browser scores.');
+ const speaking=submitted.value.review.find(r=>r.payload.kind==='speaking');assert.ok(!JSON.stringify(speaking).includes('teacherNotes'));
+ const repeated=await request('/api/student/course/week-1-mock/submissions',{method:'POST',code:a.code,json:{packet:{...packet,responses:{...packet.responses,task1:'Changed on retry'}}}});assert.equal(repeated.value.submissions[0].id,submitted.value.submissions[0].id);assert.equal(repeated.value.review.find(r=>r.payload.section==='task1').payload.text,packet.responses.task1,'Retries return the original stored work.');
+ assert.equal((await request('/api/student/submissions/'+read.id,{code:b.code})).status,404);
+ assert.equal((await request('/api/teacher/submissions?context=weekly-mock&week=1',{teacher:true})).value.total,5);assert.equal((await request('/api/teacher/submissions?context=homework&week=1',{teacher:true})).value.total,0);
+ const before=database.prepare('SELECT COUNT(*) AS n FROM classroom_submissions').get().n;
+ const broken={...packet,id:randomUUID(),responses:{...packet.responses,task2:null}};assert.equal((await request('/api/student/course/week-1-mock/submissions',{method:'POST',code:a.code,json:{packet:broken}})).status,400);assert.equal(database.prepare('SELECT COUNT(*) AS n FROM classroom_submissions').get().n,before,'Invalid mock saves no partial sections.');
+ const writingHW=catalog.weeks[0].homework.find(h=>h.kind==='writing'),speakingHW=catalog.weeks[0].homework.find(h=>h.kind==='speaking');
+ const homework=await request('/api/student/course/'+writingHW.id+'/submissions',{method:'POST',code:a.code,json:{packet:{id:randomUUID(),text:'Students has many problem.'}}});assert.equal(homework.status,201);assert.match(homework.value.review[0].payload.result.corrected,/Students have/);
+ const hwSpeak=await request('/api/student/course/'+speakingHW.id+'/submissions',{method:'POST',code:a.code,json:{packet:{id:randomUUID(),notes:'My study space'}}});assert.equal(hwSpeak.status,201);
+ const speakAgain=await request('/api/student/course/'+speakingHW.id+'/submissions',{method:'POST',code:a.code,json:{packet:{id:randomUUID(),notes:'Different UUID on another device'}}});assert.equal(hwSpeak.value.submission.id,speakAgain.value.submission.id,'Homework audio attempts retain the same submission across device/UUID changes.');
+ const speakID=hwSpeak.value.submission.id;
+ for(let attempt=1;attempt<=3;attempt++)database.prepare('INSERT INTO classroom_audio(id,submission_id,student_id,role,attempt,title,filename,mime,size,sha256,object_key,created_at,deleted) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)').run(randomUUID(),speakID,a.id,'student',attempt,'Test audio','test.webm','audio/webm',16,'a'.repeat(64),'test/'+attempt,new Date().toISOString(),1);
+ assert.equal((await audioForSubmission(db,speakID)).attemptsUsed,3,'Deleting recordings does not restore attempts.');
+ const meta={role:'student',submissionId:speakID,studentId:a.id,title:'Final attempt',filename:'test.webm',mime:'audio/webm',size:16,sha256:'b'.repeat(64),category:'speaking'};
+ const fourth=await handleAudio(new Request('https://store.test/api/audio/'+randomUUID(),{method:'PUT',headers:{Authorization:'Bearer test-key','X-Audio-Metadata':Buffer.from(JSON.stringify(meta)).toString('base64')},body:new Uint8Array(16)}),{DB:db,BUCKET:{},STORE_API_KEY:'test-key'},randomUUID());assert.equal(fourth.status,409);
+ const progress=(await request('/api/teacher/course',{teacher:true})).value;assert.equal(progress.submissions.length,7);assert.equal(progress.submissions.find(s=>s.id===speakID).recordings,0);
+ database.prepare('UPDATE classroom_audio SET deleted=0 WHERE submission_id=? AND attempt=3').run(speakID);assert.equal((await request('/api/teacher/course',{teacher:true})).value.submissions.find(s=>s.id===speakID).recordings,1);
+ const review={feedback:'Good examples. Add a clearer conclusion.',teacherScore:'Reviewed',reviewed:true};await request('/api/teacher/submissions/'+homework.value.submission.id,{method:'PATCH',teacher:true,json:review});assert.equal((await request('/api/student/submissions/'+homework.value.submission.id,{code:a.code})).value.submission.feedback,review.feedback);
+ const memory=new Map(),storage={getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)};let offline=false;
+ const sync=createStudentSync({storage,apiBase:base,fetcher:(url,init)=>offline?Promise.reject(new Error('Offline')):fetch(url,init)});await sync.join(a.code,fixturePassword);offline=true;
+ const offlinePacket={id:randomUUID(),text:'A saved homework response.'};sync.queue({id:offlinePacket.id,activityId:catalog.weeks[1].homework[0].id,coursePacket:true,packet:offlinePacket});await sync.flush();assert.equal(sync.status(offlinePacket.id),'pending');
+ offline=false;await sync.join(b.code,fixturePassword);assert.equal(sync.info().pending,0);assert.equal((await request('/api/student/course',{code:b.code})).value.submissions.length,0);
+ await sync.join(a.code,fixturePassword);await sync.flush();assert.equal(sync.status(offlinePacket.id),'sent');assert.ok(sync.courseResult(offlinePacket.id).review[0].payload.text);
+ const restored=createStudentSync({storage,apiBase:base,fetcher:fetch});await restored.verify();assert.equal(restored.courseResult(offlinePacket.id).review[0].payload.text,'A saved homework response.');
+ // A D1 batch failure rolls back every section rather than leaving a partial mock.
+ const invalidRows=buildCourseSubmissions(courseActivity('week-2-mock'),{...packet,id:randomUUID()},a);invalidRows[4].id=invalidRows[0].id;
+ const oldCount=database.prepare('SELECT COUNT(*) AS n FROM classroom_submissions').get().n;await assert.rejects(storeOperation(db,'submissions:save-many',{submissions:invalidRows}));assert.equal(database.prepare('SELECT COUNT(*) AS n FROM classroom_submissions').get().n,oldCount);
+}finally{await new Promise(resolve=>server.close(resolve));database.close();}
+
+// Exercise actual course UI logic, timing, draft isolation, and stale async replies.
+const listeners={},windowListeners={},documentListeners={},capture={},node={addEventListener(type,fn,capturing){listeners[type]=fn;capture[type]=capturing;},innerHTML:''},memory=new Map();let owner='student-a',queued=[],renderCount=0;
+const paperNode={innerHTML:'',querySelector:()=>null},audioNode={innerHTML:''};
+let clockNow=Date.now();class ClockDate extends Date{static now(){return clockNow;}}
+const browser={writingGuideHTML:()=>'Writing guide',draftToolsHTML:()=>'Draft tools',savedWritingText:(key,text)=>text,mountBookReader(){},stopBookReaders(){},openFloatingAudio:()=>false,floatingAudioOwner:()=>"",closeFloatingAudioSource(){},pauseFloatingAudio(){},coachHTML:()=>'',coachRevision:(key,text)=>text,coachReportId:()=>null,finalWritingConfirmation:()=>'',writingFeedbackHTML:()=>'',basicWritingReport:()=>({}),words,studentDocumentHTML,studentAudioHTML:()=>'',uploadSpeakingRecording:async()=>{},crypto:webcrypto,Date:ClockDate,Map,Set,Blob,URL,console,confirm:()=>true,navigator:{},setInterval(){},window:{addEventListener(type,fn){windowListeners[type]=fn;},MediaRecorder:null},location:{hash:'#course/week-1-mock'},document:{hidden:false,addEventListener(type,fn){documentListeners[type]=fn;},querySelector:s=>s==='#app'?node:s==='#courseListeningPaper'?paperNode:s==='#courseListeningPlayer'?audioNode:null,querySelectorAll:()=>[]},globalThis:{}};
+vm.createContext(browser);vm.runInContext(readFileSync(new URL('../dist/course.js',import.meta.url),'utf8').replace(/^import .*;\n/gm,'').replace(/^export /gm,'')+'\nglobalThis.testing={loadDetail,loadIndex,startMock,pauseMock,resumeMock,next,remainingTime,timerText,details:()=>details,drafts:()=>drafts,scope:()=>scope};',browser);
+const t=browser.globalThis.testing;
+browser.initCourse({studentId:()=>owner,studentName:()=>owner,storage:{getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)},render:()=>renderCount++,studentRequest:async path=>path==='/api/student/course'?{weeks:catalog.weeks,activities:courseActivities(),submissions:[]}:{activity:publicCourseValue(courseActivity(path.split('/').at(-1))),setting:{published:true,dueDate:'',message:''},completed:[]},submissionStatus:()=>'',submissionResult:()=>null,queueSubmission:(id,p)=>{queued.push({id,p});return true;},flush:async()=>{},teacherStudents:()=>[],toast(){}});
+await t.loadIndex();browser.location.hash='#mock';const mockChoices=browser.coursePage('mock');
+assert.equal((mockChoices.match(/FULL PRACTICE MOCK/g)||[]).length,8,'The main Mock test route offers all eight uploaded tests.');
+assert.ok(!mockChoices.includes('WRITING HOMEWORK'));assert.ok(!mockChoices.includes('SPEAKING HOMEWORK'));
+browser.location.hash='#course/week2-writing-hw';await t.loadDetail('week2-writing-hw');assert.match(browser.coursePage(),/Residents who selected each facility/);assert.match(browser.coursePage(),/Aged 60 and over/,'Table-based homework displays its actual figures and group labels.');
+browser.location.hash='#course/week-1-mock';await t.loadDetail('week-1-mock');
+assert.ok(browser.coursePage().includes('Check uploaded recording'),'Students can check the original audio before starting.');
+browser.initCourse({studentId:()=>owner,storage:{getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)},render(){},origin:()=> 'https://teacher.test',materialAccess:async id=>({url:'https://teacher.test/api/materials/file/'+id+'?ticket=test',title:'Mock paper'})});
+await listeners.click({target:{closest:()=>({dataset:{courseAction:'paper',file:'day05-book'}})}});assert.match(paperNode.innerHTML,/<canvas/);assert.ok(!paperNode.innerHTML.includes('<a '));
+await listeners.click({target:{closest:()=>({dataset:{courseAction:'load-audio',file:'practice-test-1-audio'}})}});assert.match(audioNode.innerHTML,/controlslist="nodownload"/);assert.match(paperNode.innerHTML,/<canvas/,'The listening paper stays visible while the recording plays.');
+browser.initCourse({studentId:()=>owner,studentName:()=>owner,storage:{getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)},render:()=>renderCount++,studentRequest:async path=>path==='/api/student/course'?{weeks:catalog.weeks,activities:courseActivities(),submissions:[]}:{activity:publicCourseValue(courseActivity(path.split('/').at(-1))),setting:{published:true,dueDate:'',message:''},completed:[]},submissionStatus:()=>'',submissionResult:()=>null,queueSubmission:(id,p)=>{queued.push({id,p});return true;},flush:async()=>{},teacherStudents:()=>[],toast(){}});
+const activity=t.details().get('week-1-mock').activity;t.startMock(activity);
+let draft=t.drafts()['week-1-mock'];assert.equal(draft.paused,false);assert.ok(browser.coursePage().includes('Practice Test 1.mp3'));assert.match(browser.coursePage(),/Pause timer/);
+const answer=value=>({dataset:{courseAnswer:'1'},value,closest:()=>null});
+clockNow+=60000;browser.processCourseExpiry();assert.equal(t.remainingTime(draft),39*60000);
+const beforeInputRender=renderCount;listeners.input({target:answer('National Museum')});assert.equal(draft.paused,true);assert.equal(draft.end,null);assert.equal(renderCount,beforeInputRender,'Auto-pause never remounts a field or interrupts audio');
+const savedRemaining=draft.remainingMs;clockNow+=2*60*60000;browser.processCourseExpiry();assert.equal(draft.stage,0);assert.equal(draft.remainingMs,savedRemaining);assert.equal(draft.responses.listening['1'],'National Museum');assert.equal(queued.length,0,'A paused mock is never silently submitted');
+const click=action=>listeners.click({target:{closest:()=>({dataset:{courseAction:action}})}});
+await click('toggle-timer');assert.equal(draft.paused,false);assert.equal(draft.end,clockNow+savedRemaining);clockNow+=1000;await click('toggle-timer');assert.equal(draft.remainingMs,savedRemaining-1000,'Manual pause stores the exact remaining time');
+await click('toggle-timer');clockNow+=1000;const beforePlayRender=renderCount;listeners.play({target:{tagName:'AUDIO'}});assert.equal(draft.paused,true);assert.equal(renderCount,beforePlayRender,'Playing audio pauses only the timer, without rebuilding the player');assert.equal(capture.play,true,'Audio play is captured even though media play does not bubble');
+await click('toggle-timer');listeners.focusin({target:answer('')});assert.equal(draft.paused,true,'Starting to answer also pauses the timer');
+await click('toggle-timer');listeners.change({target:answer('Updated answer')});assert.equal(draft.paused,true);assert.equal(draft.responses.listening['1'],'Updated answer');
+await click('toggle-timer');browser.location.hash='#homework';windowListeners.hashchange();const awayRemaining=draft.remainingMs;clockNow+=24*60*60000;browser.processCourseExpiry();assert.equal(draft.stage,0);assert.equal(draft.remainingMs,awayRemaining);
+browser.location.hash='#mock';assert.match(browser.coursePage('mock'),/Continue your saved mock/);browser.location.hash='#course/week-1-mock';assert.match(browser.coursePage(),/Resume timer/);
+await click('toggle-timer');browser.document.hidden=true;documentListeners.visibilitychange();assert.equal(draft.paused,true);browser.document.hidden=false;documentListeners.visibilitychange();assert.equal(draft.paused,true,'Returning to the tab never resumes automatically');
+await click('toggle-timer');windowListeners.blur();assert.equal(draft.paused,true);await click('toggle-timer');clockNow+=1000;windowListeners.pagehide();assert.equal(draft.paused,true);const pageRemaining=draft.remainingMs;
+owner='another-student';browser.courseConnectionChanged();owner='student-a';browser.courseConnectionChanged();draft=t.drafts()['week-1-mock'];assert.equal(draft.paused,true);assert.equal(draft.remainingMs,pageRemaining);assert.equal(draft.responses.listening['1'],'Updated answer','Reload restores the student’s answers and paused countdown');
+await t.loadDetail('week-1-mock');await click('toggle-timer');windowListeners.beforeunload({preventDefault(){throw new Error('Navigation must never be blocked');}});assert.equal(draft.paused,true);
+await click('save-later');assert.equal(browser.location.hash,'mock');assert.ok(memory.get('richmount-course-v1:student-a').includes('Updated answer'));browser.location.hash='#course/week-1-mock';
+await click('toggle-timer');draft.stage=2;listeners.input({target:{dataset:{courseText:'task1'},value:'My own writing stays saved.',closest:()=>null}});assert.equal(draft.paused,true);assert.equal(draft.responses.task1,'My own writing stays saved.');
+draft.stage=0;t.resumeMock();draft.end=clockNow-175*60000;browser.processCourseExpiry();assert.equal(draft.stage,1);assert.equal(draft.paused,true);assert.equal(queued.length,0,'An expired section pauses the next section instead of consuming later sections');
+clockNow+=3*60*60000;browser.processCourseExpiry();assert.equal(draft.stage,1);assert.equal(draft.remainingMs,60*60000);
+draft.stage=3;draft.remainingMs=14000;t.resumeMock();draft.end=clockNow-1;browser.processCourseExpiry();browser.processCourseExpiry();
+assert.equal(queued.length,1);assert.equal(queued[0].p.finished,true);assert.equal(queued[0].p.stage,3);assert.equal(browser.activeCourseMock(),'','Finishing the current last section queues exactly one full mock');
+const oldSaved={type:'mock',stage:2,startedAt:clockNow-24*60*60000,end:clockNow-60*60000,responses:{listening:{'1':'Old answer'},reading:{},task1:'Earlier writing',task2:'',speaking:{notes:'',checklist:[]}}};memory.set('richmount-course-v1:legacy-learner',JSON.stringify({'week-1-mock':oldSaved}));owner='legacy-learner';browser.courseConnectionChanged();const restoredOld=t.drafts()['week-1-mock'];assert.equal(restoredOld.paused,true);assert.equal(restoredOld.stage,2);assert.equal(restoredOld.responses.task1,'Earlier writing');assert.equal(restoredOld.remainingMs,60*60000,'An already-expired older clock is migrated to a paused current section, without losing writing or advancing');
+memory.set('richmount-course-v1:crash-learner',JSON.stringify({'week-1-mock':{...oldSaved,clockVersion:2,paused:false,remainingMs:123456}}));owner='crash-learner';browser.courseConnectionChanged();assert.equal(t.drafts()['week-1-mock'].remainingMs,123456,'Reload after a lost tab restores the saved countdown snapshot instead of charging time spent away');owner='student-a';browser.courseConnectionChanged();
+assert.ok(memory.has('richmount-course-v1:student-a'));owner='student-b';browser.courseConnectionChanged();assert.equal(Object.keys(t.drafts()).length,0,'A different class code does not see the earlier learner’s drafts.');
+owner='student-a';browser.courseConnectionChanged();assert.equal(t.drafts()['week-1-mock'].finished,true,'Own saved work is restored.');
+let releaseLate;owner='student-c';browser.courseConnectionChanged();
+browser.initCourse({studentId:()=>owner,storage:{getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)},render(){},studentRequest:()=>new Promise(resolve=>releaseLate=resolve)});
+const late=t.loadDetail('week-3-mock');owner='student-d';browser.courseConnectionChanged();releaseLate({activity:publicCourseValue(courseActivity('week-3-mock')),setting:{published:true,dueDate:'',message:''},completed:[]});await late;assert.equal(t.details().size,0,'A delayed activity response cannot enter another learner’s workspace.');
+const teacherRequests=[];browser.location.hash='#teacher/course/week-1-mock';
+browser.initCourse({studentId:()=>'',storage:{getItem:()=>null,setItem(){}},render(){},teacherStudents:()=>[],teacherRequest:async path=>{teacherRequests.push(path);return path==='/api/teacher/course'?{...courseMetadata({},true),submissions:[]}:{activity:courseActivity(path.split('/').at(-1))};}});
+await browser.loadTeacherCourse();
+assert.equal((browser.teacherCourseHTML({mode:'mock'}).match(/data-course-setting=/g)||[]).length,8);
+assert.equal((browser.teacherCourseHTML({mode:'homework'}).match(/data-course-setting=/g)||[]).length,16);
+assert.equal((browser.teacherCourseHTML({skill:'reading'}).match(/data-course-setting=/g)||[]).length,8);
+await browser.loadTeacherPreview('week-1-mock');assert.ok(browser.teacherCourseHTML().includes('Writing tasks & teacher notes'));assert.ok(teacherRequests.includes('/api/teacher/course/week-1-mock'),'Deep teacher links open the authenticated task and answer keys.');
+let releaseTeacher;browser.resetTeacherCourse();browser.initCourse({studentId:()=>'',storage:{getItem:()=>null,setItem(){}},render(){},teacherRequest:()=>new Promise(resolve=>releaseTeacher=resolve)});
+const lateTeacher=browser.loadTeacherPreview('week-2-mock');await Promise.resolve();browser.resetTeacherCourse();releaseTeacher({activity:courseActivity('week-2-mock')});await lateTeacher;assert.ok(!browser.teacherCourseHTML().includes('Teacher only'),'A late teacher preview cannot reappear after sign-out.');
+console.log('Passed: 8 complete mocks, 640 validated answer keys, private teacher content, atomic/idempotent marking, per-student homework, due dates and sharing, feedback, offline course queue, three speaking attempts, pause/resume, auto-pause, free navigation, saved countdowns and timer/draft isolation.');

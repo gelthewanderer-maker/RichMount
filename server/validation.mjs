@@ -15,7 +15,7 @@ export function validateSubmission(entry){
     const task=writingTasks.find(t=>t.id===entry.taskId||t.title===entry.title);
     if(!task)throw new Error('This writing task is not supported.');
     if(typeof entry.text!=='string'||entry.text.length>30000)throw new Error('The response is too long.');
-    return {...base,title:task.title,taskId:task.id,min:task.min,text:entry.text,prompt:task.prompt,result:checkGrammar(entry.text)};
+    return {...base,title:task.title,taskId:task.id,writingTaskType:task.min===250?'task2':/General/i.test(task.type)?'general-task1':'academic-task1',min:task.min,text:entry.text,prompt:task.prompt,result:checkGrammar(entry.text)};
   }
   if(entry.kind==='reading'||entry.kind==='listening'){
     let answers=entry.answers;

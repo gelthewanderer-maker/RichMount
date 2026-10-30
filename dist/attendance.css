@@ -1,0 +1,84 @@
+.attendance-page-head h1{font-size:clamp(28px,5vw,42px)}
+.attendance-toolbar{display:flex;align-items:flex-end;gap:12px;margin:0 0 20px;flex-wrap:wrap}
+.attendance-month{max-width:190px;margin:0;flex:1}
+.attendance-month input{min-height:48px;width:100%;margin-bottom:0}
+.attendance-primary{min-height:48px;font-weight:700}
+.attendance-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-bottom:24px}
+.attendance-summary strong{display:block;font-size:28px;line-height:1.3;color:#174b3c;overflow-wrap:anywhere}
+.attendance-summary span{display:block;margin-top:6px;font-size:12px;line-height:1.6;color:#63736c}
+.attendance-month-total{grid-column:1/-1;border-top:1px solid #dce5d7;padding-top:16px}
+.attendance-month-total strong{font-size:23px}
+.attendance-editor{margin:18px 0;padding:24px!important;min-width:0}
+.attendance-editor fieldset{border:0;padding:0;margin:0;min-width:0}
+.attendance-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.attendance-fields label{display:block;min-width:0;margin:0;font-size:14px;font-weight:600}
+.attendance-fields input,.attendance-fields select,.attendance-editor textarea{width:100%;min-width:0;min-height:48px;font-size:16px;border-radius:10px;margin:7px 0 0;box-sizing:border-box}
+.attendance-fields small{display:block;font-size:12px;font-weight:400;margin-top:6px;color:#63736c}
+.attendance-wide{grid-column:1/-1}
+.attendance-time-entry{display:grid;grid-template-columns:minmax(0,1fr) 86px;gap:8px}
+.attendance-time-entry select{padding-left:10px;padding-right:10px}
+.attendance-optional{margin:18px 0;border-top:1px solid #e2e7df;padding-top:8px}
+.attendance-optional summary,.attendance-exports summary{min-height:48px;display:flex;align-items:center;cursor:pointer;font-size:14px;font-weight:600;color:#174b3c}
+.attendance-optional[open] summary{margin-bottom:10px}
+.attendance-optional>label{margin-top:12px}
+.attendance-session-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.attendance-session-heading>div{flex:1;min-width:180px}
+.attendance-session-heading h2{margin:0;font-size:22px;overflow-wrap:anywhere}
+.attendance-session-heading p{margin:5px 0 0;line-height:1.6}
+.attendance-session-heading>.button{min-height:44px;font-size:12px;padding:10px 12px}
+.attendance-basic-editor{margin:18px 0;padding:18px;background:#f5f7f0;border-radius:12px}
+.attendance-basic-editor>.button,.attendance-basic-editor fieldset>.button{margin-top:14px}
+.attendance-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:4px;background:#eff3eb;border-radius:12px;margin:24px 0 20px}
+.attendance-tabs button{border:0;border-radius:9px;min-height:48px;padding:10px;font-size:14px;font-weight:600;background:transparent;color:#53695c;cursor:pointer}
+.attendance-tabs button[aria-pressed=true]{background:#fff;color:#174b3c;box-shadow:0 1px 5px #193c2915}
+.attendance-tabs button:focus-visible,.attendance-mark-buttons button:focus-visible{outline:3px solid #b18d2b;outline-offset:2px}
+.attendance-counts{display:flex;gap:8px;flex-wrap:wrap}
+.attendance-counts>span{padding:7px 9px;border-radius:8px;background:#f5f7f0;font-size:11px;color:#516459}
+.attendance-counts strong{font-size:13px}
+.attendance-counts .attendance-count-present{background:#eaf4ec;color:#286242}
+.attendance-counts .attendance-count-excused{background:#fff4d8;color:#75602b}
+.attendance-counts .attendance-count-absent{background:#fff0ed;color:#8d453b}
+.attendance-save-state{min-height:34px;padding:12px 0 5px;font-size:12px;color:#63736c}
+.attendance-roster{display:grid;gap:12px;margin:8px 0 0}
+.attendance-student{border:1px solid #dfe7da;border-radius:14px;padding:16px;background:#fff;min-width:0}
+.attendance-student-heading{display:flex;align-items:center;gap:10px;margin-bottom:14px;min-width:0}
+.attendance-avatar{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:36px;height:36px;border-radius:50%;background:#edf2e6;color:#174b3c;font-size:15px;font-weight:700}
+.attendance-student-heading>div{flex:1;min-width:0}
+.attendance-student-heading strong{display:block;font-size:16px;line-height:1.4;overflow-wrap:anywhere}
+.attendance-student-heading small{display:block;margin-top:4px;font-size:11px;color:#63736c}
+.attendance-status{font-size:11px;white-space:nowrap;color:#63736c;background:#f1f4ee;border-radius:7px;padding:6px 8px}
+.attendance-status-present{color:#286242;background:#eaf4ec}
+.attendance-status-excused{color:#75602b;background:#fff4d8}
+.attendance-status-absent{color:#8d453b;background:#fff0ed}
+.attendance-mark-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.attendance-mark-buttons .button{min-height:48px;width:100%;min-width:0;padding:11px 5px;border-radius:10px;font-size:13px;font-weight:600;border:1px solid #d5dfcf;background:#fff;color:#4c6253;transition:background .12s,border-color .12s}
+.attendance-mark-buttons .attendance-present[aria-pressed=true]{background:#236445;border-color:#236445;color:#fff}
+.attendance-mark-buttons .attendance-excused[aria-pressed=true]{background:#f2d879;border-color:#cba53b;color:#4d421f}
+.attendance-mark-buttons .attendance-absent[aria-pressed=true]{background:#a35449;border-color:#a35449;color:#fff}
+.attendance-total{padding:22px;border-radius:14px;margin:20px 0;background:#fff6da;border:1px solid #e1ca80}
+.attendance-total>span{display:block;font-size:12px;font-weight:600;color:#695b2c}
+.attendance-total output{display:block;font-size:clamp(24px,5vw,32px);line-height:1.4;font-weight:700;color:#263c2c;overflow-wrap:anywhere;margin:5px 0}
+.attendance-total small{display:block;font-size:12px;color:#695b2c;line-height:1.7}
+.attendance-paid{padding:12px 0;min-height:44px;font-size:14px}
+.attendance-pay-note{line-height:1.7}
+.attendance-teacher{padding:12px 0;min-height:44px}
+.attendance-editor textarea{min-height:100px}
+.attendance-editor form>fieldset>.attendance-primary{width:100%;margin-top:15px}
+.attendance-records{margin-top:24px}
+.attendance-records>h2{font-size:20px;margin-bottom:14px}
+.attendance-session-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.attendance-session-card{display:flex;flex-direction:column;margin:0!important;min-width:0;gap:16px}
+.attendance-session-card h3{font-size:18px;margin:7px 0 10px;overflow-wrap:anywhere}
+.attendance-session-date{margin:0;font-size:12px;line-height:1.6;color:#63736c}
+.attendance-session-counts{display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:#63736c}
+.attendance-session-pay{margin-top:auto;padding-top:12px;border-top:1px solid #e4e9df}
+.attendance-session-pay strong{display:block;font-size:14px;color:#174b3c}
+.attendance-session-pay small{display:block;font-size:12px;color:#63736c;margin-top:5px;line-height:1.6}
+.attendance-session-card>.button{width:100%;min-height:48px;margin:0}
+.attendance-empty{text-align:center;padding:28px 18px!important;line-height:1.8}
+.attendance-empty h3{font-size:20px}
+.attendance-exports{margin-top:20px}
+.removed-students{margin-top:20px}.removed-students summary{min-height:44px;cursor:pointer}.roster-row .class-code{flex-wrap:wrap}
+@media(min-width:1050px){.attendance-roster{grid-template-columns:repeat(2,minmax(0,1fr))}.attendance-summary{grid-template-columns:repeat(3,minmax(0,1fr))}.attendance-month-total{grid-column:auto;border:0;padding-top:0}}
+@media(max-width:700px){.attendance-toolbar{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end}.attendance-toolbar>.attendance-primary{grid-column:1/-1;grid-row:2}.attendance-month{max-width:none}.attendance-editor{padding:16px!important}.attendance-fields{grid-template-columns:1fr;gap:14px}.attendance-session-heading>div{order:3;flex-basis:100%}.attendance-session-heading{justify-content:space-between}.attendance-session-heading h2{font-size:20px;margin-top:5px}.attendance-tabs{margin-top:18px}.attendance-tabs button{font-size:12px;padding:10px 6px}.attendance-student{padding:13px}.attendance-student-heading{gap:8px}.attendance-student-heading strong{font-size:15px}.attendance-avatar{width:30px;height:30px}.attendance-mark-buttons{gap:6px}.attendance-mark-buttons .button{font-size:12px;min-height:48px}.attendance-status{font-size:10px;padding:5px 6px}.attendance-session-list{grid-template-columns:1fr}.attendance-basic-editor{padding:14px}.attendance-summary{padding:18px!important;gap:16px}.attendance-summary strong{font-size:25px}}
+@media(prefers-reduced-motion:reduce){.attendance-mark-buttons .button{transition:none}}

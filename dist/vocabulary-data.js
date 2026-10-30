@@ -1,0 +1,158 @@
+export const vocabularyTopics=[
+ {id:'education',label:'Education',icon:'◇'},
+ {id:'environment',label:'Environment',icon:'❧'},
+ {id:'technology',label:'Technology',icon:'⌘'},
+ {id:'work',label:'Work & careers',icon:'▤'},
+ {id:'economy',label:'Economy & society',icon:'↗'},
+ {id:'health',label:'Health & wellbeing',icon:'♡'},
+ {id:'cities',label:'Cities & transport',icon:'⌂'},
+ {id:'culture',label:'Culture & community',icon:'◎'},
+ {id:'academic',label:'Academic language',icon:'Aa'},
+ {id:'trends',label:'Task 1: trends',icon:'▥'}
+];
+
+// Original classroom definitions and examples. Each example uses the exact
+// headword so a quiz can hide it without changing the sentence's grammar.
+const entries={
+ education:[
+ ['curriculum','noun','The subjects and content taught in a course.','a school curriculum; revise the curriculum','The school revised its curriculum to include more practical skills.'],
+ ['tuition','noun','Teaching provided by a school or teacher; often used when discussing fees.','tuition fees; private tuition','High tuition fees can prevent students from attending university.'],
+ ['scholarship','noun','Money awarded to help someone pay for their studies.','receive a scholarship; a full scholarship','A scholarship helped her continue her university studies.'],
+ ['literacy','noun','The ability to read and write.','improve literacy; literacy skills','Community libraries can help improve literacy among adults.'],
+ ['compulsory','adjective','Required by a rule rather than chosen freely.','compulsory education; a compulsory subject','Some parents believe that a second language should be compulsory at school.'],
+ ['vocational','adjective','Related to training for a particular job or trade.','vocational training; vocational courses','Vocational training can prepare learners for skilled employment.'],
+ ['assessment','noun','A process of checking knowledge, skills or performance.','continuous assessment; an assessment method','Continuous assessment can show how a student improves over time.'],
+ ['critical thinking','noun phrase','Careful analysis of ideas and evidence before reaching a judgment.','develop critical thinking; critical thinking skills','Discussing different viewpoints helps students develop critical thinking.'],
+ ['academic','adjective','Related to education, study or research.','academic achievement; academic research','Academic research can inform decisions about education.'],
+ ['qualification','noun','An officially recognised achievement showing knowledge or training.','a professional qualification; gain a qualification','A professional qualification may improve a graduate’s job prospects.'],
+ ['accessible','adjective','Easy to reach, use or obtain.','accessible education; accessible facilities','Online courses can make education more accessible to rural learners.'],
+ ['lifelong learning','noun phrase','Continuing to gain knowledge and skills throughout life.','encourage lifelong learning; opportunities for lifelong learning','Lifelong learning helps adults adapt to changes in the workplace.']
+ ],
+ environment:[
+ ['emissions','plural noun','Gases or other substances released into the air.','carbon emissions; reduce emissions','Better public transport could reduce emissions from private cars.'],
+ ['renewable','adjective','Naturally replaced and therefore available again.','renewable energy; renewable resources','Solar power is a renewable source of energy.'],
+ ['sustainable','adjective','Able to continue over time without using up resources or causing lasting damage.','sustainable development; sustainable transport','The city needs a sustainable approach to managing its water supply.'],
+ ['conservation','noun','The protection of nature or careful use of resources.','wildlife conservation; water conservation','Wildlife conservation requires cooperation between local communities and authorities.'],
+ ['biodiversity','noun','The variety of living things in a place.','protect biodiversity; a loss of biodiversity','Protecting forests helps preserve biodiversity.'],
+ ['habitat','noun','The natural place where a plant or animal lives.','a natural habitat; habitat destruction','Road construction can damage the habitat of local wildlife.'],
+ ['pollution','noun','Harmful substances introduced into the air, water or land.','air pollution; tackle pollution','Air pollution can affect people living near busy roads.'],
+ ['consumption','noun','The amount of something used or consumed.','energy consumption; reduce consumption','Insulating homes can reduce energy consumption in winter.'],
+ ['waste','noun','Unwanted material that is thrown away.','household waste; waste management','Separating household waste makes recycling easier.'],
+ ['mitigate','verb','To make a problem or its effects less serious.','mitigate the impact; mitigate environmental damage','More green spaces can help mitigate the effects of extreme heat.'],
+ ['depletion','noun','A reduction in the amount of a resource available.','resource depletion; the depletion of water reserves','Excessive use of groundwater can lead to the depletion of local reserves.'],
+ ['ecological','adjective','Related to living things and their relationship with the environment.','ecological damage; ecological balance','The project must consider its possible ecological impact.']
+ ],
+ technology:[
+ ['innovation','noun','A new idea, method or product that changes how something is done.','technological innovation; encourage innovation','Technological innovation can create new ways of delivering healthcare.'],
+ ['automation','noun','The use of machines or software to perform tasks with less human involvement.','industrial automation; increased automation','Automation can change the skills required in factories.'],
+ ['digital literacy','noun phrase','The ability to use digital tools and assess online information effectively.','develop digital literacy; digital literacy skills','Schools can develop digital literacy by teaching students to evaluate websites.'],
+ ['privacy','noun','The ability to keep personal information or activities from unwanted access.','protect privacy; a privacy concern','People should be able to protect their privacy when using online services.'],
+ ['surveillance','noun','Close observation of people, places or activities.','video surveillance; widespread surveillance','Video surveillance can raise questions about personal privacy.'],
+ ['reliable','adjective','Able to be trusted to work properly or provide accurate information.','a reliable connection; reliable information','Rural businesses need a reliable internet connection.'],
+ ['efficient','adjective','Working well without wasting time, energy or resources.','an efficient system; more efficient processes','Digital records can make administrative work more efficient.'],
+ ['obsolete','adjective','No longer useful or commonly used because something newer has replaced it.','become obsolete; obsolete equipment','Some electronic devices become obsolete within a few years.'],
+ ['algorithm','noun','A set of steps used to solve a problem or process information.','a search algorithm; an algorithm recommends','A search algorithm determines which results appear first.'],
+ ['connectivity','noun','The ability to connect to a network or other devices.','internet connectivity; improve connectivity','Better connectivity can help remote communities access online education.'],
+ ['artificial intelligence','noun phrase','Computer systems designed to perform tasks that involve abilities such as recognising patterns or producing language.','use artificial intelligence; artificial intelligence tools','Artificial intelligence can assist workers with routine information tasks.'],
+ ['cybersecurity','noun','The protection of computers, networks and data from digital attacks.','improve cybersecurity; cybersecurity training','Businesses need cybersecurity training to help employees recognise online threats.']
+ ],
+ work:[
+ ['employment','noun','Paid work or the state of having a paid job.','employment opportunities; full-time employment','Vocational courses can improve employment opportunities for young adults.'],
+ ['workforce','noun','The people who work in a particular organisation or economy.','a skilled workforce; enter the workforce','Employers benefit from a skilled workforce.'],
+ ['productivity','noun','The amount of useful output produced in relation to the resources or time used.','improve productivity; labour productivity','Better tools can improve productivity without extending working hours.'],
+ ['flexibility','noun','The ability to adjust to different needs or circumstances.','working-time flexibility; greater flexibility','Greater flexibility may help employees balance work and family responsibilities.'],
+ ['incentive','noun','Something that encourages a person or organisation to act.','a financial incentive; provide an incentive','A financial incentive can encourage workers to complete additional training.'],
+ ['recruit','verb','To find and employ people for jobs.','recruit staff; recruit skilled workers','Small firms sometimes struggle to recruit experienced staff.'],
+ ['retain','verb','To keep someone or something rather than lose them.','retain employees; retain skilled staff','Supportive managers can help companies retain skilled staff.'],
+ ['workload','noun','The amount of work a person is expected to do.','a heavy workload; manage a workload','A heavy workload can leave employees with little time for rest.'],
+ ['collaboration','noun','Working together towards a shared goal.','team collaboration; encourage collaboration','Good communication supports collaboration between departments.'],
+ ['transferable skills','plural noun','Abilities that can be useful in different jobs or settings.','develop transferable skills; valuable transferable skills','Team projects can help students develop transferable skills.'],
+ ['job security','noun phrase','Confidence that a person’s employment is likely to continue.','improve job security; a lack of job security','A lack of job security can make long-term financial planning difficult.'],
+ ['remote work','noun phrase','Work done away from an employer’s usual workplace.','allow remote work; remote work arrangements','Remote work can reduce the time employees spend commuting.']
+ ],
+ economy:[
+ ['inequality','noun','An uneven distribution of opportunities, income or other resources.','income inequality; reduce inequality','Access to affordable education may help reduce income inequality.'],
+ ['investment','noun','Money, time or effort committed to something in the hope of a future benefit.','public investment; investment in infrastructure','Public investment in transport can benefit local businesses.'],
+ ['affordability','noun','How easily people can pay for something.','housing affordability; improve affordability','Housing affordability is a concern for many young families.'],
+ ['expenditure','noun','Money spent on goods, services or activities.','government expenditure; household expenditure','Household expenditure on heating often rises during winter.'],
+ ['revenue','noun','Money received by a business or government from its activities.','tax revenue; generate revenue','Tourism can generate revenue for local businesses.'],
+ ['subsidy','noun','Financial support intended to lower costs or support an activity.','a government subsidy; receive a subsidy','A government subsidy could make home insulation more affordable.'],
+ ['prosperity','noun','A state of economic success or good living conditions.','economic prosperity; shared prosperity','Reliable infrastructure can contribute to a region’s economic prosperity.'],
+ ['inflation','noun','A general increase in prices over time.','high inflation; the rate of inflation','High inflation can reduce the purchasing power of households.'],
+ ['poverty','noun','A lack of money or resources needed for an acceptable standard of living.','reduce poverty; live in poverty','Stable employment can help families move out of poverty.'],
+ ['infrastructure','noun','The basic systems and facilities a society needs to function.','transport infrastructure; invest in infrastructure','Growing cities need adequate transport infrastructure.'],
+ ['allocation','noun','The act of deciding how resources will be distributed.','resource allocation; the allocation of funding','The allocation of funding should reflect the needs of local communities.'],
+ ['demand','noun','The desire for a product or service together with the ability to pay for it.','consumer demand; rising demand','Rising demand for housing can put pressure on rental prices.']
+ ],
+ health:[
+ ['wellbeing','noun','The condition of feeling healthy, comfortable and generally satisfied.','mental wellbeing; improve wellbeing','Regular social contact can support mental wellbeing.'],
+ ['sedentary','adjective','Involving a lot of sitting and little physical movement.','a sedentary lifestyle; sedentary work','A sedentary lifestyle can leave people with few opportunities for exercise.'],
+ ['balanced','adjective','Including different elements in suitable proportions.','a balanced diet; a balanced approach','A balanced diet includes a variety of foods.'],
+ ['prevention','noun','Action taken to stop a problem from developing.','disease prevention; focus on prevention','Public health campaigns often focus on disease prevention.'],
+ ['nutrition','noun','The process of obtaining and using food needed for health and growth.','good nutrition; nutrition education','Schools can include nutrition education in their health programmes.'],
+ ['resilience','noun','The ability to recover or adapt after difficulties.','build resilience; emotional resilience','Supportive relationships can help people build resilience.'],
+ ['awareness','noun','Knowledge or understanding of an issue or situation.','raise awareness; public awareness','Community campaigns can raise awareness of available support services.'],
+ ['prioritise','verb','To treat something as more important than other demands.','prioritise health; prioritise prevention','Employers should prioritise the wellbeing of their staff.'],
+ ['chronic','adjective','Continuing for a long time or repeatedly returning.','a chronic condition; chronic stress','Chronic stress may affect a person’s ability to concentrate.'],
+ ['moderation','noun','Avoiding an excessive amount of something.','in moderation; encourage moderation','People are often advised to consume sugary snacks in moderation.'],
+ ['access','noun','The opportunity or ability to obtain or use something.','access to healthcare; equal access','Rural communities may have limited access to healthcare.'],
+ ['intervention','noun','An action intended to improve a situation or prevent it from getting worse.','early intervention; a public health intervention','Early intervention can help people receive support before problems become more serious.']
+ ],
+ cities:[
+ ['congestion','noun','A situation in which traffic or people make movement difficult.','traffic congestion; ease congestion','Traffic congestion increases journey times in many large cities.'],
+ ['commute','verb','To travel regularly between home and a place of work or study.','commute by bus; commute to work','Many residents commute by bus to the city centre.'],
+ ['pedestrian','noun','A person travelling on foot.','pedestrian safety; a pedestrian crossing','A pedestrian crossing can make it easier to cross a busy road.'],
+ ['urbanisation','noun','The growth of towns and cities as more people move into them.','rapid urbanisation; the effects of urbanisation','Rapid urbanisation can increase pressure on public services.'],
+ ['density','noun','The amount of something within a particular area or space.','population density; high density','High population density can support frequent public transport services.'],
+ ['public transport','noun phrase','Shared transport services available to the public, such as buses and trains.','reliable public transport; use public transport','Reliable public transport can make car ownership less necessary.'],
+ ['housing','noun','Homes considered together, especially in relation to their availability or quality.','affordable housing; a housing shortage','New developments should include affordable housing.'],
+ ['amenities','plural noun','Facilities or services that make a place useful or pleasant to live in.','local amenities; essential amenities','Libraries and sports centres are important local amenities.'],
+ ['expansion','noun','An increase in size, number or extent.','urban expansion; the expansion of a network','The expansion of the bus network could serve more neighbourhoods.'],
+ ['overcrowding','noun','A situation in which a place contains more people than it can comfortably support.','reduce overcrowding; overcrowding on trains','More frequent trains could reduce overcrowding during rush hour.'],
+ ['walkable','adjective','Designed or suitable for convenient travel on foot.','a walkable neighbourhood; a walkable city','A walkable neighbourhood allows residents to reach shops without driving.'],
+ ['regeneration','noun','Work to improve or renew a place that has declined.','urban regeneration; a regeneration project','Urban regeneration can bring unused buildings back into service.']
+ ],
+ culture:[
+ ['heritage','noun','Traditions, places or objects passed down from earlier generations.','cultural heritage; preserve heritage','Historic buildings form part of a city’s cultural heritage.'],
+ ['diversity','noun','The presence of different backgrounds, types or characteristics.','cultural diversity; celebrate diversity','Cultural diversity can introduce communities to new perspectives.'],
+ ['integration','noun','The process of becoming part of a wider group or system.','social integration; support integration','Language classes can support the social integration of newcomers.'],
+ ['identity','noun','The characteristics and sense of belonging that make a person or group distinct.','cultural identity; a sense of identity','Traditional music can strengthen a community’s sense of identity.'],
+ ['preservation','noun','The act of keeping something safe from damage or loss.','heritage preservation; the preservation of traditions','The preservation of local traditions can involve younger generations.'],
+ ['cohesion','noun','The strength of connection and cooperation within a group.','social cohesion; community cohesion','Shared public spaces may strengthen social cohesion.'],
+ ['volunteer','verb','To offer time or help without expecting payment.','volunteer at a charity; volunteer to help','Students can volunteer at a local community centre.'],
+ ['belonging','noun','A feeling of being accepted as part of a group.','a sense of belonging; community belonging','Inclusive events can help newcomers develop a sense of belonging.'],
+ ['custom','noun','A traditional way of behaving within a community.','a local custom; a cultural custom','Visitors should learn about a local custom before taking part in a celebration.'],
+ ['multicultural','adjective','Including people, ideas or traditions from different cultures.','a multicultural society; a multicultural community','A multicultural society can offer opportunities for cultural exchange.'],
+ ['authentic','adjective','Real or faithful to its original character.','an authentic experience; authentic local food','Travellers may seek an authentic experience of local life.'],
+ ['tolerance','noun','Willingness to accept differences in beliefs or behaviour.','mutual tolerance; promote tolerance','Classroom discussions can encourage tolerance of different viewpoints.']
+ ],
+ academic:[
+ ['indicate','verb','To show or suggest something.','indicate a trend; indicate a change','The results indicate a growing interest in online courses.'],
+ ['demonstrate','verb','To show something clearly using evidence or an example.','demonstrate the benefits; demonstrate a relationship','These examples demonstrate the benefits of regular practice.'],
+ ['evaluate','verb','To judge the value or quality of something using evidence.','evaluate a policy; evaluate the evidence','Researchers evaluate the evidence before drawing a conclusion.'],
+ ['justify','verb','To provide reasons or evidence that support a decision or claim.','justify a decision; justify an argument','Writers should justify their opinions with relevant examples.'],
+ ['contribute','verb','To help cause or support a result.','contribute to growth; contribute to a problem','Better transport links can contribute to regional growth.'],
+ ['facilitate','verb','To make a process or activity easier.','facilitate communication; facilitate learning','Clear instructions can facilitate independent learning.'],
+ ['undermine','verb','To weaken or damage something, often gradually.','undermine confidence; undermine trust','Misleading information can undermine public trust.'],
+ ['substantial','adjective','Large enough in amount or importance to deserve attention.','a substantial increase; a substantial benefit','The project requires substantial financial investment.'],
+ ['relevant','adjective','Closely connected to the matter being discussed.','relevant evidence; a relevant example','Each paragraph should contain a relevant example.'],
+ ['assumption','noun','Something accepted as true without being fully established.','question an assumption; a common assumption','The argument relies on the assumption that everyone has internet access.'],
+ ['perspective','noun','A particular way of viewing or understanding an issue.','a different perspective; from a practical perspective','Looking at the issue from a different perspective can improve the discussion.'],
+ ['implication','noun','A possible effect, consequence or suggested meaning.','a policy implication; a wider implication','One implication of longer working hours is less time for family activities.']
+ ],
+ trends:[
+ ['fluctuate','verb','To rise and fall rather than move steadily in one direction.','prices fluctuate; fluctuate throughout a period','Monthly sales fluctuate throughout the period shown.'],
+ ['stabilise','verb','To become steady after a period of change.','prices stabilise; stabilise at a level','The figures stabilise at around 40 after the initial increase.'],
+ ['plateau','verb','To reach a level and then stop increasing for a time.','sales plateau; plateau at a level','Sales plateau at approximately 500 units towards the end of the period.'],
+ ['peak','verb','To reach the highest point in a period.','demand can peak; peak at a level','Daily passenger numbers peak at 8:00 AM in the chart.'],
+ ['decline','verb','To become smaller or lower.','numbers decline; decline gradually','The figures decline gradually during the final three months.'],
+ ['surge','verb','To increase suddenly and by a large amount.','prices surge; surge to a new high','Online purchases surge in the final quarter of the chart.'],
+ ['proportion','noun','A part or share considered in relation to a whole.','a large proportion; the proportion of users','The proportion of students travelling by bus increased between the two years.'],
+ ['approximately','adverb','Close to a stated amount, but not exact.','approximately half; approximately 30 per cent','Approximately half of the respondents preferred public transport.'],
+ ['gradually','adverb','Slowly and in small stages.','increase gradually; decline gradually','The number of visitors rose gradually over the first five years.'],
+ ['markedly','adverb','In a noticeable or clear way.','rise markedly; differ markedly','Spending on transport increased markedly in the final year.'],
+ ['whereas','conjunction','Used to contrast two facts or ideas.','whereas the other group; rose whereas others fell','Bus use increased, whereas the proportion travelling by car fell.'],
+ ['respectively','adverb','In the same order as the people or things just mentioned.','20 and 30 respectively; accounted for amounts respectively','The two groups accounted for 20 and 30 per cent, respectively.']
+ ]
+};
+export const vocabularyWords=Object.entries(entries).flatMap(([topic,rows])=>rows.map(([word,pos,meaning,collocations,example])=>({id:topic+'-'+word.replace(/[^a-z0-9]+/g,'-'),topic,word,pos,meaning,collocations:collocations.split('; '),example})));

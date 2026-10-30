@@ -1,0 +1,65 @@
+import {stopMaterialsMedia} from './materials.js?v=20261015-books1';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const list=items=>`<ul>${(items||[]).map(item=>`<li>${esc(item)}</li>`).join('')}</ul>`;
+let options={},owner='';
+const empty=()=>({generation:0,index:null,indexError:'',indexLoading:false,details:new Map(),errors:new Map(),loading:new Set(),stages:new Map()});
+const state={student:empty(),teacher:empty()};
+const currentWeek=()=>{const parts=location.hash.slice(1).split('/');return parts[0]==='teacher'?parts[2]||'':parts[1]||'';};
+const href=(role,week='')=>'#'+(role==='teacher'?'teacher/lessons':'lessons')+(week?'/'+week:'');
+const action=(text,name,extra='',style='secondary')=>`<button type="button" class="button ${style}" data-guided-action="${name}" ${extra}>${text}</button>`;
+function syncOwner(){const next=options.studentId?.()||'';if(next===owner)return;owner=next;resetGuidedLessons('student');}
+export function resetGuidedLessons(role='teacher'){const generation=state[role].generation+1;state[role]=empty();state[role].generation=generation;}
+export function guidedConnectionChanged(){syncOwner();}
+const lessonRequest=(role,path)=>role==='teacher'?options.teacherRequest(path):options.studentRequest(path);
+async function load(role,id='',force=false){
+ if(role==='student'){syncOwner();if(!owner)return;}
+ const s=state[role],generation=s.generation,path='/api/'+role+'/lessons'+(id?'/'+id:'');
+ if(id){if(s.loading.has(id)||(!force&&(s.details.has(id)||s.errors.has(id))))return;s.loading.add(id);s.errors.delete(id);}
+ else{if(s.indexLoading||(!force&&(s.index||s.indexError)))return;s.indexLoading=true;s.indexError='';}
+ try{const value=await lessonRequest(role,path);if(state[role]!==s||s.generation!==generation)return;if(id)s.details.set(id,value);else s.index=value;}
+ catch(error){if(state[role]!==s||s.generation!==generation)return;if(id)s.errors.set(id,error.message);else s.indexError=error.message;}
+ finally{if(state[role]===s&&s.generation===generation){if(id)s.loading.delete(id);else s.indexLoading=false;options.render?.();}}
+}
+function weekLinks(role,index,id){return `<nav class="guided-week-nav" aria-label="Guided lesson weeks">${index.weeks.map(w=>`<a href="${href(role,'week-'+w.week)}" class="${id==='week-'+w.week?'active':''}" ${id==='week-'+w.week?'aria-current="page"':''}>Week ${w.week}</a>`).join('')}</nav>`;}
+function resourceRow(file,role,context=''){
+ const pdf=file.mime==='application/pdf'||role==='student'&&file.filename.endsWith('.docx'),media=['audio','video'].includes(file.kind);
+ const button=(label,mode)=>`<button type="button" class="button ${mode==='play'?'soft':'secondary'}" data-material-open="${mode}" data-material-id="${esc(file.id)}" data-material-role="${role}" data-material-inline="true">${label}</button>`;
+ return `<article class="guided-resource" data-material-file="${esc(file.id)}"><div><span class="eyebrow">${esc(context)}${file.kind==='slides'?' · TEACHING POWERPOINT':file.kind==='answer-key'?' · TEACHER KEY':''}</span><h4>${esc(file.title)}</h4><p class="small muted">${esc(file.filename)}</p></div><div class="button-row">${pdf?button('Read document','view'):''}${role==='teacher'&&file.kind==='slides'?button('Open slides','slides'):''}${media?button(file.kind==='audio'?'Play uploaded audio':'Play video','play'):''}${role==='teacher'?button(file.kind==='slides'?'Download PPT ↓':'Download ↓','download'):''}</div><p class="materials-status small" data-material-status="${esc(file.id)}" role="status"></p><div data-material-player="${esc(file.id)}"></div></article>`;
+}
+function resourcesHTML(lesson,role,ids){
+ const selected=new Set(ids||[]);return lesson.resources.lessons.flatMap(group=>group.files.filter(f=>selected.has(f.id)).map(file=>resourceRow(file,role,'DAY '+group.day+' · '+group.skill.toUpperCase()))).join('');
+}
+function tableHTML(table){return !table?'':`<figure class="course-task-table"><figcaption><strong>${esc(table.title||'Practice table')}</strong><p class="small muted">${esc(table.units||'')}</p></figcaption><div class="table-wrap"><table><thead><tr>${table.headers.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${table.rows.map(row=>`<tr>${row.map(value=>`<td>${esc(value)}</td>`).join('')}</tr>`).join('')}</tbody></table></div><p class="small muted">${esc(table.note||'')} Fictional data for classroom practice.</p></figure>`;}
+function stageHTML(lesson,role,index){
+ const phase=lesson.phases[index];return `<div class="guided-stage-heading"><span class="pill">DISCUSSION ${index+1}/${lesson.phases.length} · ${phase.minutes} MIN</span><h2>${esc(phase.title)}</h2></div>${phase.prompt?`<div class="guided-prompt"><strong>Your discussion task</strong><p>${esc(phase.prompt)}</p>${tableHTML(phase.table)}</div>`:''}<h3>Work together</h3><ol>${phase.instructions.map(item=>`<li>${esc(item)}</li>`).join('')}</ol>${phase.vocabulary?`<div class="guided-word-grid">${phase.vocabulary.map(word=>`<article><strong>${esc(word.word)}</strong><p>${esc(word.meaning)}</p><small>${esc(word.example)}</small></article>`).join('')}</div><a class="small" href="#vocabulary">Continue in Vocabulary →</a>`:''}<h3>Questions for discussion</h3>${list(phase.questions)}<div class="guided-frames"><h3>Useful answer frames</h3>${list(phase.frames)}</div>${phase.selfCheck?`<details><summary>Check your response</summary>${list(phase.selfCheck)}</details>`:''}${phase.resourceIds.length?`<section class="guided-stage-resources"><h3>Use these resources</h3>${resourcesHTML(lesson,role,phase.resourceIds)}</section>`:''}${role==='teacher'&&phase.teacherNotes?`<details class="guided-teacher-notes"><summary>Teacher discussion notes · private</summary>${list(phase.teacherNotes)}</details>`:''}<div class="guided-stage-footer">${action('← Previous','stage',`data-index="${index-1}" ${index===0?'disabled':''}`)}<span class="small muted">${index+1} of ${lesson.phases.length}</span>${action(index===lesson.phases.length-1?'Review complete':'Next discussion →','stage',`data-index="${index+1}" ${index===lesson.phases.length-1?'disabled':''}`,'soft')}</div>`;
+}
+export function guidedLessonPage(role='student'){
+ syncOwner();const s=state[role],id=currentWeek();
+ const head=`<div class="page-head"><div class="eyebrow">RICHMOUNT · LEARN & DISCUSS TOGETHER</div><h1>Weekly guided lessons.</h1><p>A clear discussion plan with your uploaded books, original audio, and ${role==='teacher'?'teaching PowerPoints':'guided activities'} for every week.</p></div>`;
+ if(role==='student'&&!owner)return head+`<section class="card"><h2>Join your class to open the lessons.</h2><p>Use your individual class code to learn with Teacher Angelo.</p><a class="button" href="#class">Join your class →</a></section>`;
+ if(id&&!/^week-[1-8]$/.test(id))return head+`<section class="card"><h2>Choose a lesson from Weeks 1–8.</h2><a class="button" href="${href(role)}">All guided lessons</a></section>`;
+ const wrapper=body=>`<section id="guidedLessons" data-guided-role="${role}" data-guided-week="${esc(id)}">${head}${body}</section>`;
+ if(!s.index)return wrapper(`<section class="card" aria-live="polite">${s.indexError?`<p class="notice warm">${esc(s.indexError)}</p>${action('Try again','refresh')}`:'<h3>Opening your weekly lessons…</h3>'}</section>`);
+ if(!id)return wrapper(`<div class="section-head"><p class="small muted">Seven discussion stages per week. Suggested 90-minute plan; adjust the pace or spread it across meetings.</p>${action('Refresh lessons','refresh')}</div><div class="guided-overview">${s.index.weeks.map(w=>`<a class="card guided-week-card" href="${href(role,'week-'+w.week)}"><span class="course-number">${String(w.week).padStart(2,'0')}</span><div class="eyebrow">WEEK ${w.week} · DAYS ${w.days[0]}–${w.days.at(-1)}</div><h2>${esc(w.title)}</h2><p>${esc(w.focus)}</p><div class="guided-counts"><span>${w.resources.books} books</span><span>${w.resources.audio} audio tracks</span>${role==='teacher'?`<span>${w.resources.slides} PPT guides</span>`:''}</div><strong>Open guided lesson →</strong></a>`).join('')}</div>`);
+ const lesson=s.details.get(id);if(!lesson)return wrapper(weekLinks(role,s.index,id)+`<section class="card" aria-live="polite">${s.errors.has(id)?`<p class="notice warm">${esc(s.errors.get(id))}</p>${action('Try again','refresh')}`:'<h3>Opening this week’s discussion…</h3>'}</section>`);
+ const index=Math.min(s.stages.get(id)||0,lesson.phases.length-1);
+ return wrapper(weekLinks(role,s.index,id)+`<div class="guided-lesson-intro"><div><div class="eyebrow">WEEK ${lesson.week} · DAYS ${lesson.days[0]}–${lesson.days.at(-1)}</div><h2>${esc(lesson.title)}</h2><p>${esc(lesson.focus)}</p><small>Suggested ${lesson.minutes} minutes · pause, replay, and discuss at your class pace.</small></div><div class="button-row">${role==='teacher'?action('Copy student lesson link','copy-link',`data-link="${esc(lesson.shareUrl)}"`,'soft'):''}${action('Refresh lesson','refresh')}<a class="button secondary" href="${href(role)}">All weeks</a></div></div><details class="card guided-objectives"><summary>By the end of the lesson</summary>${list(lesson.objectives)}</details><div class="guided-discussion-layout"><aside class="card guided-agenda"><h3>Discussion order</h3><nav aria-label="Lesson discussion stages">${lesson.phases.map((phase,i)=>`<button type="button" class="guided-stage-link ${i===index?'active':''}" data-guided-action="stage" data-index="${i}" aria-pressed="${i===index}"><span>${i+1}</span><strong>${esc(phase.title)}</strong><small>${phase.minutes} min</small></button>`).join('')}</nav></aside><article class="card guided-stage" id="guidedStageContent" tabindex="-1">${stageHTML(lesson,role,index)}</article></div><details class="card guided-all-resources"><summary>All resources for this week · books, audio${role==='teacher'?', PPTs & teacher keys':''}</summary><p class="small muted">Grouped by course and day. ${role==='teacher'?'Open your uploaded PowerPoint slides, books, and audio here. Slides have Previous / Next and Full-page view.':'Read books here or use their matching audio players.'}</p>${lesson.resources.lessons.map(group=>`<details class="guided-resource-group"><summary>Day ${group.day} · ${esc(group.title)}</summary>${group.files.map(file=>resourceRow(file,role,'DAY '+group.day+' · '+group.skill.toUpperCase())).join('')}</details>`).join('')}</details><section class="card guided-follow-up"><h2>After our discussion</h2><p>Complete the shared homework and the separate weekly mock. Submitted work appears in ${role==='teacher'?'your submission inbox':'your teacher’s dashboard'}.</p><div class="guided-follow-up-links">${lesson.followUp.map(a=>`<a href="${role==='teacher'?'#teacher/'+(a.type==='mock'?'mock':'homework')+'/'+a.id:'#course/'+a.id}" class="course-activity"><div><span class="eyebrow">${a.type==='mock'?'WEEKLY MOCK':esc(a.kind)+' HOMEWORK'}</span><h3>${esc(a.title)}</h3>${a.dueDate?`<small>Due ${esc(a.dueDate)}</small>`:''}${role==='teacher'&&!a.published?'<span class="pill">Not shared with students</span>':''}</div><span aria-hidden="true">→</span></a>`).join('')||'<p class="small muted">Your teacher will share follow-up activities here.</p>'}</div><a class="small" href="${role==='teacher'?'#teacher/resources':'#materials'}">Browse the complete resource collection →</a></section>`);
+}
+export function mountGuidedLessons(){const root=document.querySelector('#guidedLessons');if(!root)return;const role=root.dataset.guidedRole,id=root.dataset.guidedWeek;void load(role);if(/^week-[1-8]$/.test(id))void load(role,id);}
+export async function refreshGuidedLessons(role='teacher'){const id=currentWeek(),tasks=[load(role,'',true)];if(/^week-[1-8]$/.test(id))tasks.push(load(role,id,true));await Promise.all(tasks);}
+export function initGuidedLessons(callbacks){
+ options=callbacks;syncOwner();const app=document.querySelector('#app');
+ app.addEventListener('click',async event=>{
+  const b=event.target.closest('[data-guided-action]');if(!b||b.disabled)return;
+  const root=b.closest('#guidedLessons');if(!root)return;const role=root.dataset.guidedRole,id=root.dataset.guidedWeek,s=state[role],name=b.dataset.guidedAction;
+  if(name==='stage'){
+   const lesson=s.details.get(id),index=Number(b.dataset.index);if(!lesson||!Number.isInteger(index)||index<0||index>=lesson.phases.length)return;
+   const stage=root.querySelector('#guidedStageContent');stopMaterialsMedia(stage);s.stages.set(id,index);stage.innerHTML=stageHTML(lesson,role,index);
+   root.querySelectorAll('.guided-stage-link').forEach(link=>{const active=Number(link.dataset.index)===index;link.classList.toggle('active',active);link.setAttribute('aria-pressed',String(active));});stage.focus({preventScroll:true});stage.scrollIntoView({behavior:'smooth',block:'start'});
+  }else if(name==='refresh'){
+   await refreshGuidedLessons(role);
+  }else if(name==='copy-link'){
+   try{await navigator.clipboard.writeText(b.dataset.link);options.toast?.('Student lesson link copied.');}catch{options.toast?.('Copy this student link: '+b.dataset.link);}
+  }
+ });
+}
