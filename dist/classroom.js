@@ -6,7 +6,7 @@ import {CLASSROOM_API} from './classroom-config.js';
 import {materialsPage} from './materials.js?v=20261015-books1';
 import {resetGuidedLessons,refreshGuidedLessons} from './lessons.js?v=20261015-books1';
 import {teacherPages,teacherTabs,teacherCourseViews,teacherLocation} from './navigation.js?v=20261015-books1';
-import {teacherCourseHTML,loadTeacherCourse,resetTeacherCourse,loadTeacherPreview} from './course.js?v=20261030-save1';
+import {teacherCourseHTML,loadTeacherCourse,resetTeacherCourse,loadTeacherPreview} from './course.js?v=20261030-back1';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const date=s=>new Date(s).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
 const STORE='richmount-classroom-v1';

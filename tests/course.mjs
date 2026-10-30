@@ -127,7 +127,35 @@ draft.stage=0;t.resumeMock();draft.end=clockNow-175*60000;browser.processCourseE
 clockNow+=3*60*60000;browser.processCourseExpiry();assert.equal(draft.stage,1);assert.equal(draft.remainingMs,60*60000);
 draft.stage=3;draft.remainingMs=14000;t.resumeMock();draft.end=clockNow-1;browser.processCourseExpiry();browser.processCourseExpiry();
 assert.equal(queued.length,1);assert.equal(queued[0].p.finished,true);assert.equal(queued[0].p.stage,3);assert.equal(browser.activeCourseMock(),'','Finishing the current last section queues exactly one full mock');
+// Students can review every section already reached without losing answers,
+// obtaining a fresh countdown, or creating a partial submission.
+const previousQueueCount=queued.length;
+owner='navigation-student';browser.courseConnectionChanged();browser.location.hash='#course/week-1-mock';await t.loadDetail('week-1-mock');t.startMock(t.details().get('week-1-mock').activity);
+let navigationDraft=t.drafts()['week-1-mock'];const attemptId=navigationDraft.id;
+const chooseSection=stage=>listeners.click({target:{closest:()=>({dataset:{courseAction:'section',stage:String(stage)}})}});
+assert.match(browser.coursePage(),/data-stage="1" disabled/,'Future sections open through Continue in the normal order.');
+await chooseSection(2);assert.equal(navigationDraft.stage,0,'Future section buttons cannot skip unopened sections.');
+listeners.input({target:answer('Listening answer kept')});await click('toggle-timer');clockNow+=20000;await click('next');
+assert.equal(navigationDraft.stage,1);assert.equal(navigationDraft.paused,true);assert.equal(navigationDraft.sectionRemainingMs[0],40*60000-20000);
+assert.match(browser.coursePage(),/Back to Listening/);assert.ok(!browser.coursePage().includes('You cannot return'));
+listeners.input({target:answer('Reading answer kept')});await click('toggle-timer');clockNow+=30000;await click('next');
+assert.equal(navigationDraft.stage,2);assert.equal(navigationDraft.sectionRemainingMs[1],60*60000-30000);
+listeners.input({target:{dataset:{courseText:'task1'},value:'My first writing response.',closest:()=>null}});
+listeners.input({target:{dataset:{courseText:'task2'},value:'My second writing response.',closest:()=>null}});
+await click('next');assert.equal(navigationDraft.stage,3);
+listeners.input({target:{dataset:{courseText:'notes'},value:'My speaking notes.',closest:()=>null}});
+await click('back');assert.equal(navigationDraft.stage,2);assert.equal(navigationDraft.responses.task1,'My first writing response.');assert.equal(navigationDraft.responses.task2,'My second writing response.');
+await chooseSection(0);assert.equal(navigationDraft.stage,0);assert.equal(navigationDraft.remainingMs,40*60000-20000,'Back restores the saved Listening countdown.');
+assert.equal(navigationDraft.responses.listening['1'],'Listening answer kept');
+await click('next');assert.equal(navigationDraft.stage,1);assert.equal(navigationDraft.remainingMs,60*60000-30000,'Forward also restores time instead of restarting the section.');
+listeners.input({target:answer('Reading answer revised')});assert.equal(navigationDraft.responses.reading['1'],'Reading answer revised');
+assert.equal(navigationDraft.responses.speaking.notes,'My speaking notes.');assert.equal(navigationDraft.id,attemptId);assert.equal(queued.length,previousQueueCount,'Review navigation never submits sections or changes the attempt identity.');
+owner='student-a';browser.courseConnectionChanged();owner='navigation-student';browser.courseConnectionChanged();navigationDraft=t.drafts()['week-1-mock'];
+assert.equal(navigationDraft.furthestStage,3);assert.equal(navigationDraft.remainingMs,60*60000-30000);assert.equal(navigationDraft.responses.reading['1'],'Reading answer revised','Reload retains revised answers and all visited sections.');
+await t.loadDetail('week-1-mock');await chooseSection(3);await click('next');assert.equal(queued.length,previousQueueCount+1);assert.equal(queued.at(-1).p.responses.reading['1'],'Reading answer revised','Final submission includes revisions made in earlier sections.');
+await click('back');await chooseSection(0);assert.equal(navigationDraft.finished,true);assert.equal(navigationDraft.stage,3,'Finished submissions cannot be edited through stale navigation controls.');
 const oldSaved={type:'mock',stage:2,startedAt:clockNow-24*60*60000,end:clockNow-60*60000,responses:{listening:{'1':'Old answer'},reading:{},task1:'Earlier writing',task2:'',speaking:{notes:'',checklist:[]}}};memory.set('richmount-course-v1:legacy-learner',JSON.stringify({'week-1-mock':oldSaved}));owner='legacy-learner';browser.courseConnectionChanged();const restoredOld=t.drafts()['week-1-mock'];assert.equal(restoredOld.paused,true);assert.equal(restoredOld.stage,2);assert.equal(restoredOld.responses.task1,'Earlier writing');assert.equal(restoredOld.remainingMs,60*60000,'An already-expired older clock is migrated to a paused current section, without losing writing or advancing');
+browser.location.hash='#course/week-1-mock';await t.loadDetail('week-1-mock');await click('back');assert.equal(restoredOld.stage,1);assert.equal(restoredOld.remainingMs,0,'Legacy completed sections reopen for review without receiving fresh time.');assert.equal(restoredOld.responses.task1,'Earlier writing');await chooseSection(2);assert.equal(restoredOld.remainingMs,60*60000,'The legacy current section keeps its known countdown.');
 memory.set('richmount-course-v1:crash-learner',JSON.stringify({'week-1-mock':{...oldSaved,clockVersion:2,paused:false,remainingMs:123456}}));owner='crash-learner';browser.courseConnectionChanged();assert.equal(t.drafts()['week-1-mock'].remainingMs,123456,'Reload after a lost tab restores the saved countdown snapshot instead of charging time spent away');owner='student-a';browser.courseConnectionChanged();
 assert.ok(memory.has('richmount-course-v1:student-a'));owner='student-b';browser.courseConnectionChanged();assert.equal(Object.keys(t.drafts()).length,0,'A different class code does not see the earlier learner’s drafts.');
 owner='student-a';browser.courseConnectionChanged();assert.equal(t.drafts()['week-1-mock'].finished,true,'Own saved work is restored.');
@@ -143,4 +171,4 @@ assert.equal((browser.teacherCourseHTML({skill:'reading'}).match(/data-course-se
 await browser.loadTeacherPreview('week-1-mock');assert.ok(browser.teacherCourseHTML().includes('Writing tasks & teacher notes'));assert.ok(teacherRequests.includes('/api/teacher/course/week-1-mock'),'Deep teacher links open the authenticated task and answer keys.');
 let releaseTeacher;browser.resetTeacherCourse();browser.initCourse({studentId:()=>'',storage:{getItem:()=>null,setItem(){}},render(){},teacherRequest:()=>new Promise(resolve=>releaseTeacher=resolve)});
 const lateTeacher=browser.loadTeacherPreview('week-2-mock');await Promise.resolve();browser.resetTeacherCourse();releaseTeacher({activity:courseActivity('week-2-mock')});await lateTeacher;assert.ok(!browser.teacherCourseHTML().includes('Teacher only'),'A late teacher preview cannot reappear after sign-out.');
-console.log('Passed: 8 complete mocks, 640 validated answer keys, private teacher content, atomic/idempotent marking, per-student homework, due dates and sharing, feedback, offline course queue, three speaking attempts, pause/resume, auto-pause, free navigation, saved countdowns and timer/draft isolation.');
+console.log('Passed: 8 complete mocks, 640 validated answer keys, private teacher content, atomic/idempotent marking, per-student homework, due dates and sharing, feedback, offline course queue, three speaking attempts, pause/resume, auto-pause, backward section review, revised-answer submission, per-section saved countdowns, legacy attempts and timer/draft isolation.');

@@ -9,7 +9,7 @@ import {initStudentNotifications} from './notifications.js?v=20261015-books1';
 import {initCoaching,coachHTML,coachReportId,finalWritingConfirmation,writingFeedbackHTML,basicWritingReport,studentTaskBarHTML,studentDailyLearningHTML,studentNotificationState,refreshStudentTasks,coachingConnectionChanged} from './coaching.js?v=20261030-save1';
 import {initGuidedLessons,guidedLessonPage,mountGuidedLessons,guidedConnectionChanged} from './lessons.js?v=20261015-books1';
 import {studentPages,teacherPages,teacherLocation,teacherLink,teacherView,teacherNav} from './navigation.js?v=20261015-books1';
-import {initCourse,coursePage,mountCourse,courseConnectionChanged,stopCourseMedia,pauseCourseForAudio,teacherCourseHTML} from './course.js?v=20261030-save1';
+import {initCourse,coursePage,mountCourse,courseConnectionChanged,stopCourseMedia,pauseCourseForAudio,teacherCourseHTML} from './course.js?v=20261030-back1';
 import {speakingAudioHTML,studentLibraryHTML,studentAudioHTML,uploadSpeakingRecording,stopClassAudio} from './audio.js?v=20261015-books1';
 import {readings,listenings,writingTasks,guides,speaking} from './data.js';
 import {checkGrammar,words} from './grammar.js';

@@ -8,3 +8,5 @@
 @media(max-width:1100px){.course-week-grid{grid-template-columns:1fr}.course-activity .pill{font-size:11px}}@media(max-width:760px){.course-reading-grid,.course-answer-grid{grid-template-columns:1fr}.course-stage-list{grid-template-columns:repeat(2,1fr)}.course-next{display:block}.course-session{top:0}.course-activity{align-items:flex-start}.course-week-title h2{font-size:20px}}
 
 .course-clock-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.course-clock-controls .button{min-height:44px}.course-clock-status{padding:12px 16px;background:#eef3e7;border:1px solid #dce6ce;border-radius:10px;font-size:13px;color:#174b3c;margin:12px 0 20px}.course-saved-mocks{margin-bottom:22px}@media(max-width:760px){.course-session{position:static;gap:12px;flex-wrap:wrap}.course-clock-controls{width:100%;justify-content:space-between}.course-clock-status{font-size:12px}}
+
+.course-stage-pills .button{min-height:44px;padding:9px 14px}.course-stage-pills .button:disabled{opacity:.45;cursor:not-allowed}.course-stage-pills .button[aria-current="step"]{outline:2px solid #28693b;outline-offset:2px}.course-next .button-row{flex-wrap:wrap}

@@ -167,3 +167,7 @@ The storage Site adds the migration-owned `classroom_answer_drafts` table; deplo
 ## Source deployment
 
 Production application code is tracked in the RichMount repository and deployed by the existing Render build commands. `NODE_OPTIONS` is cleared so no source-code preload runs at startup or during tests. Existing secret settings and datastore identities stay unchanged. Two private lesson/answer-key JSON datasets are excluded from the public repository; `scripts/prepare-private-data.mjs` restores only those JSON files from their existing configured data bundles, requires their exact reviewed SHA-256 hashes, and never loads or executes bundled source code.
+
+## Reviewing earlier mock sections
+
+Before submitting a weekly mock, students can use Back or the section buttons to reopen any section they have already reached. Responses remain editable and autosaved. Each section retains its own remaining time; switching sections pauses the clock, and resuming never grants a new timer. Older attempts can also reopen earlier sections for review; elapsed time from sections without an older saved countdown is not reset. Moving between sections does not submit the mock. Finish & send, or expiry of the final section’s running timer, submits the whole attempt. Submitted attempts keep the existing review workflow.
