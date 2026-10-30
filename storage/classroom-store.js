@@ -2,6 +2,7 @@ import {ensureAttachments,attachmentStore} from './attachment-store.js';
 import {ensureFeedback,enqueueStatement,feedbackStore} from './feedback-store.js';
 import {draftStore} from './draft-store.js';
 import {answerStore} from './answer-store.js';
+import {liveStore} from './live-store.js';
 import {attendanceStore} from './attendance-store.js';
 import {audioForSubmission,audioLibrary} from './audio-store.js';
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -17,6 +18,7 @@ export async function storeOperation(db,op,p={}){
   switch(op){
   case 'drafts:list':case 'drafts:save':return draftStore(db,op,p);
   case 'answers:list':case 'answers:save':return answerStore(db,op,p);
+  case 'live:touch':case 'live:roster':case 'live:drafts':return liveStore(db,op,p);
   case 'students:credentials':case 'students:password-set':{
     await db.prepare('CREATE TABLE IF NOT EXISTS classroom_student_passwords (student_id TEXT PRIMARY KEY,password_hash TEXT,session_version TEXT NOT NULL,updated_at TEXT NOT NULL,FOREIGN KEY(student_id) REFERENCES classroom_students(id))').run();
     const studentId=id(p.id);

@@ -1,3 +1,4 @@
+import {validateLiveActivity,liveOverview,livePreview} from './live.mjs';
 import {answerKey,validateAnswers,publicAnswers} from './answer-drafts.mjs';
 import {AttachmentError,readAttachment,attachmentStorage,streamAttachment} from './attachments.mjs';
 import {createAutomaticFeedback,feedbackJobAuthorized} from './automatic-feedback.mjs';
@@ -135,6 +136,14 @@ export function createClassroomServer(config){
       if(pathname==='/api/teacher/logout'&&method==='POST'){res.setHeader('Set-Cookie',sessionCookie(''));json(res,200,{signedOut:true});return;}
       if(pathname.startsWith('/api/teacher/')){
         await teacher(req);
+        if(pathname==='/api/teacher/live'&&method==='GET'){const result=await store('live:roster');json(res,200,{students:liveOverview(result.rows,clock()),serverTime:new Date(clock()).toISOString()});return;}
+        const liveStudent=pathname.match(/^\/api\/teacher\/live\/([^/]+)$/);
+        if(liveStudent&&method==='GET'){
+          if(!UUID.test(liveStudent[1]))fail(404,'Student not found.');
+          const result=await store('live:roster',{studentId:liveStudent[1]}),student=liveOverview(result.rows,clock())[0];if(!student)fail(404,'Student not found.');
+          const activity=student.activity?.draftKey?student.activity:null,drafts=await store('live:drafts',{studentId:student.id,...(activity?{key:activity.draftKey,source:activity.source}:{})});
+          json(res,200,{student,preview:livePreview(activity,drafts.drafts),serverTime:new Date(clock()).toISOString()});return;
+        }
         if(pathname==='/api/teacher/attendance'){
           if(method==='GET'){const month=attendanceMonth(url.searchParams.get('month')||attendanceDate(clock()).slice(0,7)),records=await store('attendance:list',{month}),roster=await store('students:list');json(res,200,{month,sessions:records.sessions,summary:attendanceSummary(records.sessions),students:roster.students.map(publicStudent)});return;}
           if(method==='POST'){const raw=await body(req),previous=(await store('attendance:get',{id:raw.id})).session,action=raw.action||'save',now=clock();if(!['save','launch','end','session'].includes(action))fail(400,'Choose a valid class action.');
@@ -289,6 +298,9 @@ export function createClassroomServer(config){
           json(res,200,{...studentLogin(learner,{password_hash:hash,session_version:version}),saved:true});return;
         }
         if(!learner.credentials?.password_hash)fail(403,'Choose your new password in Your class before opening class resources or submitting work.');
+        if(pathname==='/api/student/activity'&&method==='POST'){
+          rate(req,'activity-update',600);const update=validateLiveActivity(await body(req),new Date(clock()).toISOString()),result=await store('live:touch',{...update,studentId:learner.id});json(res,200,{accepted:result.saved,updatedAt:result.updatedAt});return;
+        }
         if(pathname==='/api/student/answer-drafts'){
           if(method==='GET'){const result=await store('answers:list',{studentId:learner.id,key:answerKey(url.searchParams.get('key'))});json(res,200,{drafts:result.drafts.map(publicAnswers)});return;}
           if(method==='POST'){const draft=validateAnswers(await body(req),new Date(clock()).toISOString()),result=await store('answers:save',{...draft,studentId:learner.id});if(!result.saved)fail(409,'A newer copy of your answers is already saved. Your current device copy is kept.');json(res,200,{saved:true,revision:result.revision,updatedAt:result.updatedAt});return;}

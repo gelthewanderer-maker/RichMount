@@ -67,6 +67,13 @@ async function loadDetail(id){
 }
 export function mountCourse(){if(!['course','homework','mock'].includes(location.hash.slice(1).split('/')[0]))return;syncScope();void loadIndex();if(currentId())void loadDetail(currentId());processCourseExpiry();updateCourseTimer();}
 export function courseConnectionChanged(weeklyKey){syncScope();if(weeklyKey&&index?.weekly?.window.key!==weeklyKey){index=null;indexError='';}}
+export function liveCourseContext(){
+ syncScope();const id=currentId(),detail=details.get(id);if(!id||!detail)return null;
+ const d=drafts[draftKey(id)],a=detail.activity,section=a.type==='mock'?stages[d?.stage||0].id:a.kind;
+ const responses=a.type==='mock'?d?.responses||{}:d||{},answers=responses[section]||{};
+ const text=section==='writing'?(a.type==='mock'?[responses.task1,responses.task2].join(' '):d?.text||''):section==='speaking'?(a.type==='mock'?responses.speaking?.notes:d?.notes)||'':'';
+ return {activityId:id,weeklyKey:d?.weeklyKey||detail.weeklyKey||'',attemptId:d?.id||'',stage:d?.stage,phase:!d?'viewing':d.finished?'finished':a.type==='mock'&&d.paused?'paused':'working',answered:['reading','listening'].includes(section)?Object.values(answers).filter(value=>String(value||'').trim()).length:0,words:words(text)};
+}
 export function activeCourseMock(){syncScope();return Object.entries(drafts).find(([,d])=>d.type==='mock'&&d.startedAt&&!d.finished)?.[0]||'';}
 export function pauseCourseForAudio(){pauseMock();}
 export function stopCourseMedia(){document.querySelectorAll('[data-course-media]').forEach(m=>m.pause());}

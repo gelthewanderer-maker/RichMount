@@ -171,3 +171,9 @@ Production application code is tracked in the RichMount repository and deployed 
 ## Reviewing earlier mock sections
 
 Before submitting a weekly mock, students can use Back or the section buttons to reopen any section they have already reached. Responses remain editable and autosaved. Each section retains its own remaining time; switching sections pauses the clock, and resuming never grants a new timer. Older attempts can also reopen earlier sections for review; elapsed time from sections without an older saved countdown is not reset. Moving between sections does not submit the mock. Finish & send, or expiry of the final section’s running timer, submits the whole attempt. Submitted attempts keep the existing review workflow.
+
+## Live classroom preview
+
+Teacher dashboard → Live classroom shows active student names, the Richmount activity and mock section last reported by each student, entered-answer/word counts, and activity timestamps. Select a student to read the latest account-saved responses while they work. The teacher page refreshes about every 10 seconds while visible; signed-in student pages report their Richmount activity about every 15 seconds and after navigation. Away and stale connections are labelled. Offline or not-yet-synced edits do not appear until successfully saved.
+
+Previews require the existing authenticated teacher session. Students cannot list classmates or read this endpoint. Student pages state that their teacher can view activity and saved answers. The feature does not capture the screen, camera, microphone, clipboard, or activity outside Richmount. Previewing does not grade, submit, change or publish student work. Both existing draft tables and separate per-tab activity records use the current private database; no existing answers are replaced by activity updates.
