@@ -1,5 +1,5 @@
 import {DraftError} from './drafts.mjs';
-import {courseActivity} from './course.mjs';
+import {courseActivity,courseMarks} from './course.mjs';
 import {readings,listenings,writingTasks} from '../dist/data.js';
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const sections=['listening','reading','writing','speaking'];
@@ -58,8 +58,14 @@ export function livePreview(activity,rows){
   const item=courseActivity(context.activityId);
   if(item?.type==='mock'){
    const r=value.responses||{};
-   output.push({id:'listening',title:'Listening answers',type:'answers',answers:questions(item.listening.questions,r.listening,true)});
-   output.push({id:'reading',title:'Reading answers',type:'answers',answers:questions(item.reading.questions,r.reading,true)});
+   for(const kind of ['listening','reading']){
+    const questionsForSkill=item[kind].questions,entered=r[kind]||{};
+    const scored=courseMarks(questionsForSkill,entered,kind==='listening'?item.listening.gradingGroups:[]);
+    const attempted=scored.details.filter(q=>q.given).length;
+    output.push({id:kind,title:kind==='listening'?'Listening answers':'Reading answers',type:'answers',
+     provisional:{correct:scored.details.filter(q=>q.correct).length,attempted,total:scored.total},
+     answers:scored.details.map(q=>({id:String(q.id),prompt:String(q.text||''),response:q.given,correct:q.given?q.correct:null,expected:q.given&&!q.correct?(Array.isArray(q.answer)?q.answer.join(' / '):String(q.answer)):''}))});
+   }
    for(const task of ['task1','task2'])addText(task,item.writing[task].title,item.writing[task].prompt,r[task]);
    addText('speaking','Speaking preparation notes','',r.speaking?.notes);
   }else if(item)addText(item.kind,item.title,item.prompt,item.kind==='writing'?value.text:value.notes);
